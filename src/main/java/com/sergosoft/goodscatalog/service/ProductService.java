@@ -1,14 +1,16 @@
 package com.sergosoft.goodscatalog.service;
 
-import com.sergosoft.goodscatalog.model.Product;
+import com.sergosoft.goodscatalog.dto.ProductDTO;
+import com.sergosoft.goodscatalog.dto.ProductCreateRequest;
+import com.sergosoft.goodscatalog.dto.ProductUpdateRequest;
 
 import java.util.List;
 
 public interface ProductService {
 
-//    List<Product> getAllProducts(); TODO
-//    Product getProductById(Long id);
-//    Product createProduct(Product product);
-//    Product updateProduct(Long id, Product product);
-//    boolean deleteProduct(Long id);
+    List<ProductDTO> getAllProducts();
+    ProductDTO getProductById(Long id);
+    ProductDTO createProduct(ProductCreateRequest product);
+    ProductDTO updateProduct(Long id, ProductUpdateRequest product);
+    boolean deleteProduct(Long id);
 }
