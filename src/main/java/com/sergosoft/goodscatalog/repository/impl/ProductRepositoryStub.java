@@ -5,44 +5,35 @@ import com.sergosoft.goodscatalog.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Repository
-@Qualifier("fake")
+@Qualifier("stub")
 @Deprecated(forRemoval = true)
-public class ProductRepositoryFake implements ProductRepository {
-
-    private Map<Long, Product> products = new HashMap<>();
+public class ProductRepositoryStub implements ProductRepository {
 
     @Override
     public List<Product> findAllProducts() {
-        // ToDo
         return List.of();
     }
 
     @Override
     public Product findProductById(Long id) {
-        // ToDo
         return null;
     }
 
     @Override
     public Product saveProduct(Product product) {
-        // ToDo
         return null;
     }
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        // ToDo
         return null;
     }
 
     @Override
     public boolean deleteProduct(Long id) {
-        // ToDo
         return false;
     }
 }
