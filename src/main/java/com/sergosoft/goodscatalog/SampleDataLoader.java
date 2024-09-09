@@ -11,31 +11,32 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
-@Component
-public class SampleDataLoader implements ApplicationRunner {
-
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        categoryRepository.saveCategory(new Category(
-                "Electronics",
-                "Sample description",
-                null,
-                new ArrayList<>(),
-                new ArrayList<>()
-        ));
-
-        productRepository.saveProduct(new Product(
-                "Fridge",
-                "The coldest fridge in the world",
-                123d,
-                new ArrayList<>(),
-                null
-        ));
-    }
-}
+//@Component
+//public class SampleDataLoader implements ApplicationRunner {
+//
+//    @Autowired
+//    private ProductRepository productRepository;
+//
+//    @Autowired
+//    private CategoryRepository categoryRepository;
+//
+//    @Override
+//    public void run(ApplicationArguments args) throws Exception {
+//        categoryRepository.saveCategory(new Category(
+//                "Electronics",
+//                "Sample description",
+//                null,
+//                new ArrayList<>(),
+//                new ArrayList<>()
+//        ));
+//
+//        productRepository.saveProduct(new Product(
+//                12L,
+//                "Fridge",
+//                "The coldest fridge in the world",
+//                123d,
+//                new ArrayList<>(),
+//                null
+//        ));
+//    }
+//}

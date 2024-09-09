@@ -1,0 +1,16 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Product</title>
+</head>
+<body>
+    <div>
+        <h2>Product</h2>
+        <span>Id: </span><span th:text="${product.id}"></span><br><br>
+        <span>Name: </span><span th:text="${product.name}"></span><br><br>
+        <span>Description: </span><span th:text="${product.description}"></span><br><br>
+        <span>Price: </span><span th:text="${product.price}"></span><br><br>
+        <span>Images: </span><span th:text="${product.imagesUrls}"></span><br><br>
+    </div>
+</body>
+</html>
