@@ -10,7 +10,6 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class SampleDataLoader implements ApplicationRunner {
