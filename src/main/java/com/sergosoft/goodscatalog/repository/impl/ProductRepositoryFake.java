@@ -5,10 +5,7 @@ import com.sergosoft.goodscatalog.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 @Qualifier("fake")
@@ -16,6 +13,7 @@ import java.util.Map;
 public class ProductRepositoryFake implements ProductRepository {
 
     private Map<Long, Product> products = new HashMap<>();
+    private Long id = 0L;
 
     @Override
     public List<Product> findAllProducts() {
@@ -23,13 +21,13 @@ public class ProductRepositoryFake implements ProductRepository {
     }
 
     @Override
-    public Product findProductById(Long id) {
-        return products.get(id);
+    public Optional<Product> findProductById(Long id) {
+        return Optional.ofNullable(products.get(id));
     }
 
     @Override
     public Product saveProduct(Product product) {
-        products.put(product.getId(), product);
+        products.put(++id, product);
         return product;
     }
 

@@ -1,17 +1,26 @@
 package com.sergosoft.goodscatalog.model;
 
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
-@Data
-@Builder
+@Getter
+@Setter
 public class Product {
+
+    public Product(String name, String description, Double price, List<String> imagesUrls, Category category) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.imagesUrls = imagesUrls;
+        this.category = category;
+    }
+
     private Long id;
     private String name;
-    private Double price;
     private String description;
-    private List<String> imgURL;
+    private Double price;
+    private List<String> imagesUrls;
     private Category category;
 }
