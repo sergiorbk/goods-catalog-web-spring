@@ -1,9 +1,11 @@
 package com.sergosoft.goodscatalog.service.impl;
 
+import com.sergosoft.goodscatalog.dto.ProductCreationRequest;
+import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
+import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.repository.ProductRepository;
 import com.sergosoft.goodscatalog.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +15,11 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
 
-    @Autowired
-    public ProductServiceImpl(@Qualifier("fake") ProductRepository productRepository) {
+    public ProductServiceImpl(@Qualifier("fake") ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     @Override
@@ -26,12 +29,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return productRepository.findProductById(id).orElse(null);
+        return productRepository.findProductById(id).orElseThrow(
+                () -> new EntityNotFoundException("No product with ID: " + id + " not found."));
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return productRepository.saveProduct(product);
+    public Product createProduct(ProductCreationRequest request) {
+        return productRepository.saveProduct(productMapper.toEntity(request));
     }
 
     @Override

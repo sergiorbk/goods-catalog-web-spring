@@ -25,7 +25,8 @@ public class CategoryRepositoryFake implements CategoryRepository {
 
     @Override
     public Category saveCategory(Category category) {
-        return categories.put(++id, category);
+        category.setId(++id);
+        return categories.put(category.getId(), category);
     }
 
     @Override
