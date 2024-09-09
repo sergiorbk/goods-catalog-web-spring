@@ -5,6 +5,7 @@ import com.sergosoft.goodscatalog.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,31 +19,28 @@ public class ProductRepositoryFake implements ProductRepository {
 
     @Override
     public List<Product> findAllProducts() {
-        // ToDo
-        return List.of();
+        return new ArrayList<>(products.values());
     }
 
     @Override
     public Product findProductById(Long id) {
-        // ToDo
-        return null;
+        return products.get(id);
     }
 
     @Override
     public Product saveProduct(Product product) {
-        // ToDo
-        return null;
+        products.put(product.getId(), product);
+        return product;
     }
 
     @Override
     public Product updateProduct(Long id, Product product) {
-        // ToDo
-        return null;
+        products.put(id, product);
+        return product;
     }
 
     @Override
     public boolean deleteProduct(Long id) {
-        // ToDo
-        return false;
+        return products.remove(id) != null;
     }
 }

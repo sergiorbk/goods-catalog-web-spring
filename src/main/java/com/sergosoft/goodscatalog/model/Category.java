@@ -7,11 +7,11 @@ import java.util.List;
 
 @Data
 @Builder
-public class Product {
+public class Category {
     private Long id;
     private String name;
-    private Double price;
     private String description;
-    private List<String> imgURL;
-    private Category category;
+    private Category parent;
+    private List<Category> subCategories;
+    private List<Product> products;
 }

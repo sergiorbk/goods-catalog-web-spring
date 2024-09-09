@@ -1,8 +1,6 @@
 package com.sergosoft.goodscatalog.service.impl;
 
-import com.sergosoft.goodscatalog.dto.ProductCreateRequest;
-import com.sergosoft.goodscatalog.dto.ProductDTO;
-import com.sergosoft.goodscatalog.dto.ProductUpdateRequest;
+import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.repository.ProductRepository;
 import com.sergosoft.goodscatalog.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,32 +20,27 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getAllProducts() {
-        //TODO
-        return List.of();
+    public List<Product> getAllProducts() {
+        return productRepository.findAllProducts();
     }
 
     @Override
-    public ProductDTO getProductById(Long id) {
-        //TODO
-        return null;
+    public Product getProductById(Long id) {
+        return productRepository.findProductById(id);
     }
 
     @Override
-    public ProductDTO createProduct(ProductCreateRequest product) {
-        //TODO
-        return null;
+    public Product createProduct(Product product) {
+        return productRepository.saveProduct(product);
     }
 
     @Override
-    public ProductDTO updateProduct(Long id, ProductUpdateRequest product) {
-        //TODO
-        return null;
+    public Product updateProduct(Long id, Product product) {
+        return productRepository.updateProduct(id, product);
     }
 
     @Override
     public boolean deleteProduct(Long id) {
-        //TODO
-        return false;
+        return productRepository.deleteProduct(id);
     }
 }
