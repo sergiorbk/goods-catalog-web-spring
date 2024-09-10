@@ -1,0 +1,55 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h1>Category</h1>
+
+        <!-- Category Name and Description -->
+        <div><b>Name:</b>
+            <span th:text="${category.name}"></span>
+        </div>
+
+        <br>
+
+        <div><b>Description:</b>
+            <span th:text="${category.description}"></span>
+        </div>
+
+        <br>
+
+        <!-- Parent Category Check -->
+        <div><b>Parent category:</b>
+            <span th:if="${category.parent != null}" th:text="${category.parent.name}"></span>
+            <span th:unless="${category.parent != null}">No parent category</span>
+        </div>
+
+
+        <!-- Display Products -->
+        <h4>Products:</h4>
+        <div th:if="${category.products != null && !#lists.isEmpty(category.products)}">
+            <ul>
+                <li th:each="product : ${category.products}">
+                    <span th:text="${product.name}"></span><br> <!-- Assuming Product has a name -->
+                    <span th:text="${product.description}"></span><br> <!-- Assuming Product has a name -->
+                    <span th:text="${product.price}"></span><br> <!-- Assuming Product has a name -->
+                    <span th:text="${product.imagesUrls}"></span><br> <!-- Assuming Product has a name -->
+                </li>
+            </ul>
+        </div>
+
+        <!-- Display SubCategories -->
+        <h4>Sub categories:</h4>
+        <div
+            th:if="${category.subCategories != null && !#lists.isEmpty(category.subCategories)}"
+            th:each="subCategory : ${category.subCategories}"
+        >
+            <ul>
+                <li th:text="${subCategory.name}"></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

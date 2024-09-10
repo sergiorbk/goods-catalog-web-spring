@@ -2,11 +2,13 @@ package com.sergosoft.goodscatalog.repository.impl;
 
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 @Repository
+@Qualifier("fake")
 @Deprecated(forRemoval = true)
 public class CategoryRepositoryFake implements CategoryRepository {
 
