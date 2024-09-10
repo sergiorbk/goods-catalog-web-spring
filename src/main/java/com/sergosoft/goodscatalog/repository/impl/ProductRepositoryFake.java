@@ -12,7 +12,7 @@ import java.util.*;
 @Deprecated(forRemoval = true)
 public class ProductRepositoryFake implements ProductRepository {
 
-    private Map<Long, Product> products = new HashMap<>();
+    private final Map<Long, Product> products = new HashMap<>();
     private Long id = 0L;
 
     @Override

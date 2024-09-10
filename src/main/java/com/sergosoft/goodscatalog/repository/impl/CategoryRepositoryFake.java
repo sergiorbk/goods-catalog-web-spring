@@ -10,7 +10,7 @@ import java.util.*;
 @Deprecated(forRemoval = true)
 public class CategoryRepositoryFake implements CategoryRepository {
 
-    private Map<Long, Category> categories = new HashMap<>();
+    private final Map<Long, Category> categories = new HashMap<>();
     private Long id = 0L;
 
     @Override
@@ -20,7 +20,7 @@ public class CategoryRepositoryFake implements CategoryRepository {
 
     @Override
     public Optional<Category> findCategoryById(Long id) {
-        return Optional.of(categories.get(id));
+        return Optional.ofNullable(categories.get(id));
     }
 
     @Override

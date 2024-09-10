@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Validation Errors</title>
+</head>
+<body>
+<h1>Validation Errors</h1>
+
+<ul>
+    <li th:each="error : ${validationErrors}">
+        <strong th:text="${error.key}">Field</strong>: <span th:text="${error.value}">Error message</span>
+    </li>
+</ul>
+
+<a href="/" th:href="@{/}">Go to Homepage</a>
+</body>
+</html>
