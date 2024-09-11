@@ -11,6 +11,20 @@ import java.util.List;
 @AllArgsConstructor
 public class Category {
 
+    public Category(
+            String name,
+            String description,
+            Category parent,
+            List<Product> products,
+            List<Category> subCategories
+    ) {
+        this.name = name;
+        this.description = description;
+        this.parent = parent;
+        this.products = products;
+        this.subCategories = subCategories;
+    }
+
     private Long id;
     private String name;
     private String description;

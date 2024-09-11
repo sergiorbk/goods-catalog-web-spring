@@ -1,0 +1,38 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Categories</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Parent</th>
+                <th>SubCategories</th>
+                <th>Products</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="category : ${categories}">
+                <td th:text="${category.name}"></td>
+                <td th:text="${category.description}"></td>
+                <td th:text="${category.parent.name}">Parent name</td>
+                <td>
+                    <div th:if="${category.subCategories != null && !#lists.isEmpty(category.subCategories)}">
+                      <span th:each="subCategory : ${category.subCategories}" th:text="${subCategory.name}">Subcategory</span>
+                    </div>
+                    <span th:if="${category.subCategories == null || #lists.isEmpty(category.subCategories)}">No Subcategories</span>
+                </td>
+                <td>
+                  <div th:if="${category.products != null && !#lists.isEmpty(category.products)}">
+                      <span th:each="product : ${category.products}" th:text="${product.name}">Product</span>
+                  </div>
+                    <span th:if="${category.products == null || #lists.isEmpty(category.products)}">No Products</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

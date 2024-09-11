@@ -13,6 +13,8 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -25,14 +27,13 @@ public class SampleDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-
         Category electronicsCategory = categoryRepository.saveCategory(new Category(
                 null,
                 "Electronics",
                 "Sample description",
-                null,
-                new ArrayList<>(),
-                new ArrayList<>()
+                subCategory,
+                new ArrayList<>(Collections.singletonList(subCategory)),
+                new ArrayList<>(Collections.singletonList(product))
         ));
 
         productRepository.saveProduct(new Product(
