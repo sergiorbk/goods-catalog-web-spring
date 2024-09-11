@@ -14,7 +14,7 @@ public class CategoryDto {
     private Integer id;
     private String name;
     private String description;
-    private Category parent;
+    private Integer parentId;
     private List<Category> subCategories;
     private List<Product> products;
 }

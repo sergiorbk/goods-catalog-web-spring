@@ -1,4 +1,4 @@
-package com.sergosoft.goodscatalog.repository.impl;
+package com.sergosoft.goodscatalog.repository.fake;
 
 import com.sergosoft.goodscatalog.model.Product;
 import org.springframework.beans.factory.annotation.Qualifier;

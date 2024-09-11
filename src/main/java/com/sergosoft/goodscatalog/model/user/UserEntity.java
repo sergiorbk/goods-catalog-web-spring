@@ -13,10 +13,10 @@ import java.util.stream.Stream;
 
 @Entity
 @Table(name = "users")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity implements UserDetails {
 
     @Id

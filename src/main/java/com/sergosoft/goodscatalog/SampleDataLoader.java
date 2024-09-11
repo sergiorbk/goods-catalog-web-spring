@@ -1,62 +1,48 @@
 package com.sergosoft.goodscatalog;
 
+import com.sergosoft.goodscatalog.dto.CategoryCreationRequest;
+import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
+import com.sergosoft.goodscatalog.dto.user.UserRegisterRequest;
 import com.sergosoft.goodscatalog.model.Category;
-import com.sergosoft.goodscatalog.model.Product;
-import com.sergosoft.goodscatalog.model.user.UserEntity;
-import com.sergosoft.goodscatalog.model.user.UserRole;
-import com.sergosoft.goodscatalog.repository.CategoryRepository;
-import com.sergosoft.goodscatalog.repository.ProductRepository;
-import com.sergosoft.goodscatalog.repository.UserRepository;
+import com.sergosoft.goodscatalog.service.CategoryService;
+import com.sergosoft.goodscatalog.service.ProductService;
+import com.sergosoft.goodscatalog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
 public class SampleDataLoader implements ApplicationRunner {
 
-    private final ProductRepository productRepository;
-    private final CategoryRepository categoryRepository;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+    private final ProductService productService;
+    private final CategoryService categoryService;
+    private final UserService userService;
 
     @Override
     public void run(ApplicationArguments args) {
-        Category electronicsCategory = categoryRepository.save(new Category(
-                null,
+        Category electronicsCategory = categoryService.addCategory(new CategoryCreationRequest(
                 "Electronics",
-                "Sample description",
+                "Sample description for category Electronics",
                 null,
                 new ArrayList<>(),
                 new ArrayList<>()
         ));
 
-        productRepository.save(new Product(
-                null,
+        productService.createProduct(new ProductCreationRequest(
                 "Fridge",
                 "The coldest fridge in the world",
-                123d,
-                new ArrayList<>(),
-                electronicsCategory
+                10999D,
+                List.of("https://content.rozetka.com.ua/goods/images/big/14840350.jpg"),
+                electronicsCategory.getId()
         ));
 
-        UserEntity simpleUser = new UserEntity(
-                null,
-                "sergiorbk",
-                passwordEncoder.encode("pass"),
-                UserRole.USER
-        );
-        userRepository.save(simpleUser);
-
-        UserEntity adminUser = new UserEntity(
-                null,
-                "admin",
-                passwordEncoder.encode("root"),
-                UserRole.ADMIN
-        );
-        userRepository.save(adminUser);
+        userService.registerUser(new UserRegisterRequest(
+                "user",
+                "123123123Aa$"
+        ));
     }
 }

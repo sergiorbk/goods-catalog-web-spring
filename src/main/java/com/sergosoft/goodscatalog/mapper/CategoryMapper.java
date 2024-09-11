@@ -7,6 +7,7 @@ import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Component
 public class CategoryMapper implements Mapper<Category, CategoryDto> {
@@ -21,12 +22,11 @@ public class CategoryMapper implements Mapper<Category, CategoryDto> {
         if(category == null){
             return null;
         }
-
         return new CategoryDto(
                 category.getId(),
                 category.getName(),
                 category.getDescription(),
-                category.getParent(),
+                category.getParent() == null ? null : category.getParent().getId(),
                 category.getSubCategories(),
                 category.getProducts()
         );
@@ -36,12 +36,12 @@ public class CategoryMapper implements Mapper<Category, CategoryDto> {
         if(dto == null){
             return null;
         }
-
+        Optional<Category> parentCategory = categoryRepository.findById(dto.getParentId());
         return new Category(
                 dto.getId(),
                 dto.getName(),
                 dto.getDescription(),
-                dto.getParent(),
+                parentCategory.orElse(null),
                 dto.getSubCategories(),
                 dto.getProducts()
         );
@@ -52,9 +52,11 @@ public class CategoryMapper implements Mapper<Category, CategoryDto> {
             return null;
         }
 
-        Category parentCategoryById = categoryRepository.findById(categoryCreationRequest.getParentCategoryId())
-                .orElseThrow(() -> new EntityNotFoundException("Category not found"));
-
+        Category parentCategoryById = null;
+        if(categoryCreationRequest.getParentCategoryId() != null) {
+            parentCategoryById = categoryRepository.findById(categoryCreationRequest.getParentCategoryId())
+                    .orElseThrow(() -> new EntityNotFoundException("Category not found"));
+        }
 
         return new Category(
                 null,
