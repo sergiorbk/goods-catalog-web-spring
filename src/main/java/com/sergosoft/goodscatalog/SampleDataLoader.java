@@ -4,6 +4,8 @@ import com.sergosoft.goodscatalog.dto.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.dto.user.UserRegisterRequest;
 import com.sergosoft.goodscatalog.model.Category;
+import com.sergosoft.goodscatalog.model.user.UserEntity;
+import com.sergosoft.goodscatalog.model.user.UserRole;
 import com.sergosoft.goodscatalog.service.CategoryService;
 import com.sergosoft.goodscatalog.service.ProductService;
 import com.sergosoft.goodscatalog.service.UserService;
@@ -44,5 +46,12 @@ public class SampleDataLoader implements ApplicationRunner {
                 "user",
                 "123123123Aa$"
         ));
+
+        UserEntity admin = userService.registerUser(new UserRegisterRequest(
+                "admin",
+                "123123123Aa$"
+        ));
+
+        userService.changeRole(admin.getId(), UserRole.ADMIN);
     }
 }

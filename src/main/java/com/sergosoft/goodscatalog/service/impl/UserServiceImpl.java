@@ -1,13 +1,16 @@
 package com.sergosoft.goodscatalog.service.impl;
 
 import com.sergosoft.goodscatalog.dto.user.UserRegisterRequest;
+import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 import com.sergosoft.goodscatalog.mapper.UserMapper;
 import com.sergosoft.goodscatalog.model.user.UserEntity;
+import com.sergosoft.goodscatalog.model.user.UserRole;
 import com.sergosoft.goodscatalog.repository.UserRepository;
 import com.sergosoft.goodscatalog.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -30,6 +33,20 @@ public class UserServiceImpl implements UserService {
             throw new EntityUniqueViolationException("User with username: " + user.getUsername() + " already exists.");
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        userRepository.save(user);
+        return user;
+    }
+
+    @Override
+    public void changeRole(Long userId, UserRole role) {
+        Optional<UserEntity> optionalUser = userRepository.findById(userId);
+        if(optionalUser.isEmpty()) {
+            throw new EntityNotFoundException("User with ID: " + userId + " does not exist.");
+        }
+        UserEntity user = optionalUser.get();
+        if(!user.getRole().equals(role)) {
+            user.setRole(role);
+            userRepository.save(user);
+        }
     }
 }
