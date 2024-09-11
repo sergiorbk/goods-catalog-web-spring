@@ -1,26 +1,31 @@
 package com.sergosoft.goodscatalog;
 
 import com.sergosoft.goodscatalog.model.Category;
+import com.sergosoft.goodscatalog.model.Product;
+import com.sergosoft.goodscatalog.model.user.UserEntity;
+import com.sergosoft.goodscatalog.model.user.UserRole;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
 import com.sergosoft.goodscatalog.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sergosoft.goodscatalog.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 
 @Component
+@RequiredArgsConstructor
 public class SampleDataLoader implements ApplicationRunner {
 
-    @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
+
         Category electronicsCategory = categoryRepository.saveCategory(new Category(
                 1L,
                 "Electronics",
@@ -30,13 +35,29 @@ public class SampleDataLoader implements ApplicationRunner {
                 new ArrayList<>()
         ));
 
-//        productRepository.saveProduct(new Product(
-//                12L,
-//                "Fridge",
-//                "The coldest fridge in the world",
-//                123d,
-//                new ArrayList<>(),
-//                electronicsCategory
-//        ));
+        productRepository.saveProduct(new Product(
+                12L,
+                "Fridge",
+                "The coldest fridge in the world",
+                123d,
+                new ArrayList<>(),
+                electronicsCategory
+        ));
+
+        UserEntity simpleUser = new UserEntity(
+                null,
+                "sergiorbk",
+                passwordEncoder.encode("pass"),
+                UserRole.USER
+        );
+        userRepository.save(simpleUser);
+
+        UserEntity adminUser = new UserEntity(
+                null,
+                "admin",
+                passwordEncoder.encode("root"),
+                UserRole.ADMIN
+        );
+        userRepository.save(adminUser);
     }
 }
