@@ -19,7 +19,7 @@ public class CategoryCreationRequest {
     private String description;
 
     @NotNull
-    private Long parentCategoryId;
+    private Integer parentCategoryId;
 
     @NotNull
     private List<@NotNull Long> subCategoriesIds;

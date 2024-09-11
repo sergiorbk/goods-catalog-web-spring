@@ -25,7 +25,7 @@ public class SampleDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        Category electronicsCategory = categoryRepository.saveCategory(new Category(
+        Category electronicsCategory = categoryRepository.save(new Category(
                 null,
                 "Electronics",
                 "Sample description",
@@ -34,7 +34,7 @@ public class SampleDataLoader implements ApplicationRunner {
                 new ArrayList<>()
         ));
 
-        productRepository.saveProduct(new Product(
+        productRepository.save(new Product(
                 null,
                 "Fridge",
                 "The coldest fridge in the world",

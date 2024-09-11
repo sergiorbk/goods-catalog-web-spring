@@ -4,13 +4,9 @@ import com.sergosoft.goodscatalog.dto.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.dto.CategoryDto;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.model.Category;
-import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
 import org.springframework.stereotype.Component;
-
-import java.sql.Array;
 import java.util.ArrayList;
-import java.util.Optional;
 
 @Component
 public class CategoryMapper implements Mapper<Category, CategoryDto> {
@@ -56,17 +52,17 @@ public class CategoryMapper implements Mapper<Category, CategoryDto> {
             return null;
         }
 
-        Category parentCategoryById = categoryRepository.findCategoryById(categoryCreationRequest.getParentCategoryId())
+        Category parentCategoryById = categoryRepository.findById(categoryCreationRequest.getParentCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException("Category not found"));
 
 
         return new Category(
+                null,
                 categoryCreationRequest.getName(),
                 categoryCreationRequest.getDescription(),
                 parentCategoryById,
-                new ArrayList<Product>(),
-                new ArrayList<Category>()
+                new ArrayList<>(),
+                new ArrayList<>()
         );
     }
-
 }

@@ -1,15 +1,8 @@
 package com.sergosoft.goodscatalog.repository;
 
 import com.sergosoft.goodscatalog.model.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Optional;
-
-public interface ProductRepository {
-
-    List<Product> findAllProducts();
-    Optional<Product> findProductById(Long id);
-    Product saveProduct(Product product);
-    Product updateProduct(Long id, Product product);
-    boolean deleteProduct(Long id);
-}
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> { }

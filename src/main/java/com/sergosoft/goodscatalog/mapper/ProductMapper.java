@@ -22,12 +22,12 @@ public class ProductMapper implements Mapper<Product, ProductDto> {
             return null;
         }
 
-        Category category = categoryRepository.findCategoryById(productDto.getCategoryId())
+        Category category = categoryRepository.findById(productDto.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Category with ID: " + productDto.getCategoryId() + " not found."));
 
         return new Product(
-                productDto.getCategoryId(),
+                productDto.getId(),
                 productDto.getName(),
                 productDto.getDescription(),
                 productDto.getPrice(),
@@ -41,11 +41,12 @@ public class ProductMapper implements Mapper<Product, ProductDto> {
             return null;
         }
 
-        Category category = categoryRepository.findCategoryById(creationRequest.getCategoryId())
+        Category category = categoryRepository.findById(creationRequest.getCategoryId())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Category with ID: " + creationRequest.getCategoryId() + " not found."));
 
         return new Product(
+                null,
                 creationRequest.getName(),
                 creationRequest.getDescription(),
                 creationRequest.getPrice(),

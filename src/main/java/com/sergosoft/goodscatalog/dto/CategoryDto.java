@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class CategoryDto {
 
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private Category parent;

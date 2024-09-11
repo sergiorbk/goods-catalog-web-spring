@@ -29,5 +29,5 @@ public class ProductCreationRequest {
             @Length(max = 255, message = "Max length for image URL is 255.") String> imagesUrls;
 
     @NotNull
-    private Long categoryId;
+    private Integer categoryId;
 }
