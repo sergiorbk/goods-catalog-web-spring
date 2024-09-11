@@ -1,6 +1,6 @@
 package com.sergosoft.goodscatalog.service;
 
-import com.sergosoft.goodscatalog.dto.ProductCreationRequest;
+import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.model.Product;
 
 import java.util.List;

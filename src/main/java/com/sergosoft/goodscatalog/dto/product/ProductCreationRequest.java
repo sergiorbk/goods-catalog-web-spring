@@ -1,4 +1,4 @@
-package com.sergosoft.goodscatalog.dto;
+package com.sergosoft.goodscatalog.dto.product;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;

@@ -1,13 +1,66 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" lang="en">
 <head>
-    <title>Spring Security Example </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration - Spring Security Example</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding-top: 50px;
+        }
+        .container {
+            max-width: 400px;
+        }
+        .form-container {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 <body>
-<form th:action="@{/register}" method="post">
-    <div><label> User Name : <input type="text" name="username"/> </label></div>
-    <div><label> Password: <input type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Sign Up"/></div>
-</form>
+<div class="container">
+    <div class="form-container">
+        <h1 class="text-center">Registration</h1>
+
+        <div th:if="${error}" class="alert alert-danger">
+            <span th:text="${error}"></span>
+        </div>
+        <div th:if="${validationErrors}" class="alert alert-danger">
+            <ul>
+                <li th:each="entry : ${validationErrors}">
+                    <span th:text="${entry.value}"></span>
+                </li>
+            </ul>
+        </div>
+
+        <form th:action="@{/register}" method="post" th:object="${userRegisterRequest}">
+            <div class="form-group">
+                <label for="username">User Name</label>
+                <input type="text" id="username" th:field="*{username}" class="form-control"/>
+                <div th:if="${#fields.hasErrors('username')}" class="text-danger">
+                    <span th:errors="*{username}"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" th:field="*{password}" class="form-control"/>
+                <div th:if="${#fields.hasErrors('password')}" class="text-danger">
+                    <span th:errors="*{password}"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

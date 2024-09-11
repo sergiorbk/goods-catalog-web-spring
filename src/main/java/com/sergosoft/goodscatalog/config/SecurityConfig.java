@@ -26,15 +26,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/").permitAll()
-                        .requestMatchers("/register").permitAll()
-                        .requestMatchers("moderate/**").hasRole(UserRole.ADMIN.toString())
+                        .requestMatchers("/", "/register").permitAll()
+                        .requestMatchers("/moderate/**").hasRole(UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
-                        .defaultSuccessUrl("/")
                         .permitAll()
+                        .defaultSuccessUrl("/")
                 )
                 .logout(LogoutConfigurer::permitAll);
 
