@@ -1,6 +1,6 @@
 package com.sergosoft.goodscatalog.service.impl;
 
-import com.sergosoft.goodscatalog.dto.ProductCreationRequest;
+import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;

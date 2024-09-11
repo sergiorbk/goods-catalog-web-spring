@@ -1,8 +1,8 @@
 package com.sergosoft.goodscatalog.handler;
 
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
+import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -16,6 +16,13 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(EntityUniqueViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public String handleEntityUniqueValidationException(EntityUniqueViolationException ex, Model model) {
+        model.addAttribute("error", ex.getMessage());
+        return "auth/register";
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleValidationExceptions(MethodArgumentNotValidException ex, Model model) {
@@ -26,7 +33,7 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         model.addAttribute("validationErrors", errors);
-        return "error/validation_error";
+        return "auth/register";
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

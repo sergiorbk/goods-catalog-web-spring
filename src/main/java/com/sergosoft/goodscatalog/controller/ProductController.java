@@ -1,6 +1,6 @@
 package com.sergosoft.goodscatalog.controller;
 
-import com.sergosoft.goodscatalog.dto.ProductCreationRequest;
+import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.service.ProductService;
