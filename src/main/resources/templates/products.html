@@ -23,7 +23,6 @@
 <body>
 <div class="container table-container">
     <h1 class="mb-4">Products List</h1>
-
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead class="thead-dark">
@@ -32,18 +31,16 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
-                <th>Image URLs</th>
                 <th>Category</th>
                 <th th:if="${isAdmin}">Modifications</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="product : ${products}">
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.id}">Product ID</a></td>
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.name}">Product Name</a></td>
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.description}">Product Description</a></td>
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.price}">Product Price</a></td>
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.imagesUrls}">Image URLs</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.id}">ID</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.name}">Name</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.description}">Description</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.price}">Price</a></td>
                 <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.category.getName()}">Category Name</a></td>
                 <td th:if="${isAdmin}">
                     <a th:href="@{'/products/moderate/' + ${product.id} + '/delete'}" class="btn btn-danger btn-sm" role="button">Delete</a>
