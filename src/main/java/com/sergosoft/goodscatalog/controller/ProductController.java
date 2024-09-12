@@ -2,7 +2,8 @@ package com.sergosoft.goodscatalog.controller;
 
 import java.util.List;
 
-import lombok.RequiredArgsConstructor;
+import com.sergosoft.goodscatalog.model.user.UserRole;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductDto;
@@ -33,9 +35,11 @@ public class ProductController {
     // GET methods to return HTML pages
     //
     @GetMapping({"/all", "/"})
-    public String showAllProducts(Model model) {
+    public String showAllProducts(Model model, Authentication auth) {
         List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products.stream().map(productMapper::toDto));
+        model.addAttribute("products", products);
+        model.addAttribute("isAdmin", auth != null && auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(UserRole.ADMIN.name())));
         return "products";
     }
 

@@ -1,46 +1,65 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Products list</title>
+    <title>Products List</title>
     <style>
-        .table{
-            width: 80%;
+        .table-container {
+            padding: 20px;
+        }
+        .table tr {
+            cursor: pointer;
+        }
+        .table tr a {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+        .table tr a:hover {
+            background-color: #f8f9fa; /* Light background on hover */
         }
     </style>
 </head>
 <body>
-<div class="table-container">
-    <h1>Products list</h1>
+<div class="container table-container">
+    <h1 class="mb-4">Products List</h1>
 
-    <table class="table table-striped table-hover">
-        <thead class="thead-dark">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
             <tr>
                 <th>Id</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
-                <th>Image urls</th>
-                <th>Category Id</th>
-                <th>Modifications</th>
+                <th>Image URLs</th>
+                <th>Category</th>
+                <th th:if="${isAdmin}">Modifications</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             <tr th:each="product : ${products}">
-                <td th:text="${product.id}">Product id</td>
-                <td th:text="${product.name}">Product name</td>
-                <td th:text="${product.description}">Product description</td>
-                <td th:text="${product.price}">Product price</td>
-                <td th:text="${product.imagesUrls}">Image urls</td>
-                <td th:text="${product.categoryId}">Category Id</td>
+                <td th:text="${product.id}">Product ID</td>
+                <td th:text="${product.name}">Product Name</td>
+                <td th:text="${product.description}">Product Description</td>
+                <td th:text="${product.price}">Product Price</td>
+                <td th:text="${product.imagesUrls}">Image URLs</td>
+                <td th:text="${product.category.getName()}">Category Name</td>
+                <td th:if="${isAdmin}">
+                    <a th:href="@{'/products/moderate/' + ${product.id} + '/delete'}" class="btn btn-danger btn-sm" role="button">Delete</a>
+                    <a th:href="@{'/products/moderate/' + ${product.id} + '/edit'}" class="btn btn-primary btn-sm" role="button">Edit</a>
+                </td>
                 <td>
-                    <a th:href="@{'/products/moderate/' + ${product.id} + '/delete'}" class="btn btn-danger" role="button">Delete</a>
-                    <a th:href="@{'/products/moderate/' + ${product.id} + '/edit'}" class="btn btn-primary" role="button">Edit</a>
+                    <a th:href="@{'/products/' + ${product.id}}" class="stretched-link"></a>
                 </td>
             </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
