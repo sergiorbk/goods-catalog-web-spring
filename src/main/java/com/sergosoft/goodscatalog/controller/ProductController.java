@@ -25,11 +25,15 @@ import com.sergosoft.goodscatalog.service.ProductService;
 
 @Controller
 @RequestMapping("/products")
-@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
     private final ProductMapper productMapper;
+
+    public ProductController(ProductService productService, ProductMapper productMapper) {
+        this.productService = productService;
+        this.productMapper = productMapper;
+    }
 
     //
     // GET methods to return HTML pages

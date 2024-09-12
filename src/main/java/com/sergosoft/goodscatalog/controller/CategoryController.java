@@ -23,11 +23,10 @@ import com.sergosoft.goodscatalog.service.CategoryService;
 
 @Controller
 @RequestMapping("/categories")
-@RequiredArgsConstructor
 public class CategoryController {
 
-    private final CategoryService categoryService;
-    private final CategoryMapper categoryMapper;
+    private CategoryService categoryService;
+    private CategoryMapper categoryMapper;
 
     //
     // GET methods to return HTML pages
