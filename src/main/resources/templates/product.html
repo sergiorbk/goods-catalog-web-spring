@@ -1,16 +1,32 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Product</title>
 </head>
 <body>
-    <div>
-        <h2>Product</h2>
-        <span>Id: </span><span th:text="${product.id}"></span><br><br>
-        <span>Name: </span><span th:text="${product.name}"></span><br><br>
-        <span>Description: </span><span th:text="${product.description}"></span><br><br>
-        <span>Price: </span><span th:text="${product.price}"></span><br><br>
-        <span>Images: </span><span th:text="${product.imagesUrls}"></span><br><br>
+<div class="container mt-5">
+    <h2 class="mb-4">Product Details</h2>
+    <div class="card p-4">
+<!--        <div class="mb-3">-->
+<!--            <strong>Id: </strong><span th:text="${product.id}"></span>-->
+<!--        </div>-->
+        <div class="mb-3">
+            <strong>Name: </strong><span th:text="${product.name}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Description: </strong><span th:text="${product.description}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Price: </strong><span th:text="${product.price}"></span>
+        </div>
+        <div class="mb-3">
+            <strong>Images: </strong><span th:text="${product.imagesUrls}"></span>
+        </div>
     </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

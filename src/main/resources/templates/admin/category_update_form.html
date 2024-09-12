@@ -10,10 +10,11 @@
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="mb-4">Create Your Product</h1>
 
-    <form th:action="@{/products/create}" th:object="${product}" method="post">
+<div class="container mt-5">
+    <h1 class="mb-4">Update Your Product</h1>
+
+    <form th:action="@{/categories/edit/{id}(id=${category.id})}" th:object="${category}" method="post">
 
         <div class="form-group">
             <label for="name" class="form-label">Name:</label>
@@ -26,21 +27,21 @@
         </div>
 
         <div class="form-group">
-            <label for="price" class="form-label">Price:</label>
-            <input type="number" id="price" th:field="*{price}" step="0.01" class="form-control" required />
+            <label for="parentId" class="form-label">Parent Id:</label>
+            <input type="text" id="parentId" th:field="*{parentId}" class="form-control" required />
         </div>
 
         <div class="form-group">
-            <label for="imageUrls" class="form-label">Image URLs:</label>
-            <input type="text" id="imageUrls" th:field="*{imagesUrls}" class="form-control" required />
+            <label for="subCategories" class="form-label">Sub Categories:</label>
+            <input type="text" id="subCategories" th:field="*{subCategories}" class="form-control" required />
         </div>
 
         <div class="form-group">
-            <label for="categoryId" class="form-label">Category ID:</label>
-            <input type="text" id="categoryId" th:field="*{categoryId}" class="form-control" required />
+            <label for="products" class="form-label">Products:</label>
+            <input type="text" id="products" th:field="*{products}" class="form-control" required />
         </div>
 
-        <button type="submit" class="btn btn-primary">Create Product</button>
+        <button type="submit" class="btn btn-primary">Update Product</button>
 
     </form>
 </div>

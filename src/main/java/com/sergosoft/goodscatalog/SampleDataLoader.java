@@ -1,6 +1,6 @@
 package com.sergosoft.goodscatalog;
 
-import com.sergosoft.goodscatalog.dto.CategoryCreationRequest;
+import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.dto.user.UserRegisterRequest;
 import com.sergosoft.goodscatalog.model.Category;
@@ -33,6 +33,8 @@ public class SampleDataLoader implements ApplicationRunner {
                 new ArrayList<>(),
                 new ArrayList<>()
         ));
+
+
 
         productService.createProduct(new ProductCreationRequest(
                 "Fridge",

@@ -1,7 +1,7 @@
 package com.sergosoft.goodscatalog.mapper;
 
-import com.sergosoft.goodscatalog.dto.CategoryCreationRequest;
-import com.sergosoft.goodscatalog.dto.CategoryDto;
+import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
+import com.sergosoft.goodscatalog.dto.category.CategoryDto;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;

@@ -1,4 +1,4 @@
-package com.sergosoft.goodscatalog.dto;
+package com.sergosoft.goodscatalog.dto.category;
 
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.model.Product;

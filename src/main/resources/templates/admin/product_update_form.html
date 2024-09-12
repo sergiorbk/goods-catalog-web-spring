@@ -10,10 +10,11 @@
     </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h1 class="mb-4">Create Your Product</h1>
 
-    <form th:action="@{/products/create}" th:object="${product}" method="post">
+<div class="container mt-5">
+    <h1 class="mb-4">Update Your Product</h1>
+
+    <form th:action="@{/products/edit/{id}(id=${product.id})}" th:object="${product}" method="post">
 
         <div class="form-group">
             <label for="name" class="form-label">Name:</label>
@@ -40,7 +41,7 @@
             <input type="text" id="categoryId" th:field="*{categoryId}" class="form-control" required />
         </div>
 
-        <button type="submit" class="btn btn-primary">Create Product</button>
+        <button type="submit" class="btn btn-primary">Update Product</button>
 
     </form>
 </div>

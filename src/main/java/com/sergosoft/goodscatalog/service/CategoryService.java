@@ -1,6 +1,6 @@
 package com.sergosoft.goodscatalog.service;
 
-import com.sergosoft.goodscatalog.dto.CategoryCreationRequest;
+import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.model.Category;
 import java.util.List;
 
