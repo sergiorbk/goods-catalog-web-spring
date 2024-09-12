@@ -9,16 +9,14 @@
         .table-container {
             padding: 20px;
         }
-        .table tr {
-            cursor: pointer;
-        }
-        .table tr a {
+        .table td a {
             display: block;
             color: inherit;
             text-decoration: none;
         }
-        .table tr a:hover {
-            background-color: #f8f9fa; /* Light background on hover */
+        .table tr:hover {
+            background-color: #f8f9fa; /* Light background on row hover */
+            cursor: pointer;
         }
     </style>
 </head>
@@ -41,18 +39,15 @@
             </thead>
             <tbody>
             <tr th:each="product : ${products}">
-                <td th:text="${product.id}">Product ID</td>
-                <td th:text="${product.name}">Product Name</td>
-                <td th:text="${product.description}">Product Description</td>
-                <td th:text="${product.price}">Product Price</td>
-                <td th:text="${product.imagesUrls}">Image URLs</td>
-                <td th:text="${product.category.getName()}">Category Name</td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.id}">Product ID</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.name}">Product Name</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.description}">Product Description</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.price}">Product Price</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.imagesUrls}">Image URLs</a></td>
+                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.category.getName()}">Category Name</a></td>
                 <td th:if="${isAdmin}">
                     <a th:href="@{'/products/moderate/' + ${product.id} + '/delete'}" class="btn btn-danger btn-sm" role="button">Delete</a>
                     <a th:href="@{'/products/moderate/' + ${product.id} + '/edit'}" class="btn btn-primary btn-sm" role="button">Edit</a>
-                </td>
-                <td>
-                    <a th:href="@{'/products/' + ${product.id}}" class="stretched-link"></a>
                 </td>
             </tr>
             </tbody>
