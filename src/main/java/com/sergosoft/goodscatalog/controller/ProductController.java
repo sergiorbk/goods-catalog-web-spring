@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 
 import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductDto;
