@@ -1,5 +1,10 @@
 package com.sergosoft.goodscatalog.service.impl;
 
+import java.util.Optional;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.sergosoft.goodscatalog.dto.user.UserRegisterRequest;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
@@ -8,9 +13,6 @@ import com.sergosoft.goodscatalog.model.user.UserEntity;
 import com.sergosoft.goodscatalog.model.user.UserRole;
 import com.sergosoft.goodscatalog.repository.UserRepository;
 import com.sergosoft.goodscatalog.service.UserService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {

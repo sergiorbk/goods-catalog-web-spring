@@ -1,12 +1,13 @@
 package com.sergosoft.goodscatalog.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductDto;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
-import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper implements Mapper<Product, ProductDto> {
@@ -17,8 +18,8 @@ public class ProductMapper implements Mapper<Product, ProductDto> {
         this.categoryRepository = categoryRepository;
     }
 
-    public Product toEntity(ProductDto productDto){
-        if (productDto == null){
+    public Product toEntity(ProductDto productDto) {
+        if (productDto == null) {
             return null;
         }
 
@@ -37,7 +38,7 @@ public class ProductMapper implements Mapper<Product, ProductDto> {
     }
 
     public Product toEntity(ProductCreationRequest creationRequest) {
-        if(creationRequest == null) {
+        if (creationRequest == null) {
             return null;
         }
 
@@ -55,8 +56,8 @@ public class ProductMapper implements Mapper<Product, ProductDto> {
         );
     }
 
-    public ProductDto toDto(Product product){
-        if (product == null){
+    public ProductDto toDto(Product product) {
+        if (product == null) {
             return null;
         }
         return new ProductDto(

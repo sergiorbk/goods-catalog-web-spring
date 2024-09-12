@@ -1,13 +1,15 @@
 package com.sergosoft.goodscatalog.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.repository.ProductRepository;
 import com.sergosoft.goodscatalog.service.ProductService;
-import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -37,8 +39,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Long id, Product product) {
-        return productRepository.save(product);
+    public void updateProduct(Long id, Product product) {
+        productRepository.save(product);
     }
 
     @Override

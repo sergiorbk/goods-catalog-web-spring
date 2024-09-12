@@ -1,11 +1,12 @@
 package com.sergosoft.goodscatalog.dto.category;
 
-import com.sergosoft.goodscatalog.model.Category;
-import com.sergosoft.goodscatalog.model.Product;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.util.List;
+import com.sergosoft.goodscatalog.model.Category;
+import com.sergosoft.goodscatalog.model.Product;
 
 @Data
 @AllArgsConstructor

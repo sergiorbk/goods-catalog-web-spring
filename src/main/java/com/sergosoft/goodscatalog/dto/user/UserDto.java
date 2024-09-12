@@ -1,8 +1,9 @@
 package com.sergosoft.goodscatalog.dto.user;
 
-import com.sergosoft.goodscatalog.model.user.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
+import com.sergosoft.goodscatalog.model.user.UserRole;
 
 @Data
 @AllArgsConstructor

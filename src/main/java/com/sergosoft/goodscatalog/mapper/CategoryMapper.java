@@ -1,13 +1,15 @@
 package com.sergosoft.goodscatalog.mapper;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
+import org.springframework.stereotype.Component;
+
 import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.dto.category.CategoryDto;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
-import org.springframework.stereotype.Component;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Component
 public class CategoryMapper implements Mapper<Category, CategoryDto> {
@@ -19,7 +21,7 @@ public class CategoryMapper implements Mapper<Category, CategoryDto> {
     }
 
     public CategoryDto toDto(Category category) {
-        if(category == null){
+        if (category == null) {
             return null;
         }
         return new CategoryDto(
@@ -33,7 +35,7 @@ public class CategoryMapper implements Mapper<Category, CategoryDto> {
     }
 
     public Category toEntity(CategoryDto dto) {
-        if(dto == null){
+        if (dto == null) {
             return null;
         }
         Optional<Category> parentCategory = categoryRepository.findById(dto.getParentId());
@@ -47,13 +49,13 @@ public class CategoryMapper implements Mapper<Category, CategoryDto> {
         );
     }
 
-    public Category toEntity(CategoryCreationRequest categoryCreationRequest){
-        if(categoryCreationRequest == null){
+    public Category toEntity(CategoryCreationRequest categoryCreationRequest) {
+        if (categoryCreationRequest == null) {
             return null;
         }
 
         Category parentCategoryById = null;
-        if(categoryCreationRequest.getParentCategoryId() != null) {
+        if (categoryCreationRequest.getParentCategoryId() != null) {
             parentCategoryById = categoryRepository.findById(categoryCreationRequest.getParentCategoryId())
                     .orElseThrow(() -> new EntityNotFoundException("Category not found"));
         }

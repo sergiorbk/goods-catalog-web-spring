@@ -1,10 +1,11 @@
 package com.sergosoft.goodscatalog.service.impl;
 
-import com.sergosoft.goodscatalog.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import com.sergosoft.goodscatalog.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

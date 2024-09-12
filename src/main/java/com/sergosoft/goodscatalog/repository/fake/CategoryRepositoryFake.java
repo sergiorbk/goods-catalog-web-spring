@@ -1,9 +1,14 @@
 package com.sergosoft.goodscatalog.repository.fake;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import com.sergosoft.goodscatalog.model.Category;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import java.util.*;
 
 @Repository
 @Qualifier("fake")

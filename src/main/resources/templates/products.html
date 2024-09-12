@@ -34,9 +34,8 @@
                 <td th:text="${product.imagesUrls}">Image urls</td>
                 <td th:text="${product.categoryId}">Category Id</td>
                 <td>
-                    <!-- Delete form for each product -->
-                    <a th:href="@{'/products/delete/' + ${product.id}}" class="btn btn-danger" role="button">Delete</a>
-                    <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-primary" role="button">Edit</a>
+                    <a th:href="@{'/products/' + ${product.id} + '/delete'}" class="btn btn-danger" role="button">Delete</a>
+                    <a th:href="@{'/products/' + ${product.id} + '/edit'}" class="btn btn-primary" role="button">Edit</a>
                 </td>
             </tr>
         </tbody>

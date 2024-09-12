@@ -1,13 +1,15 @@
 package com.sergosoft.goodscatalog.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.mapper.CategoryMapper;
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
 import com.sergosoft.goodscatalog.service.CategoryService;
-import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -37,13 +39,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Category updateCategory(Integer id, Category category){
-        return categoryRepository.save(category);
+    public void updateCategory(Integer id, Category category){
+        categoryRepository.save(category);
     }
 
     @Override
     public void deleteCategory(Integer id) {
         categoryRepository.deleteById(id);
     }
-
 }

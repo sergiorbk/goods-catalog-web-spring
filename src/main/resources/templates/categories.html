@@ -44,8 +44,8 @@
             </td>
 
             <td>
-                <a th:href="@{'/categories/delete/' + ${category.id}}" class="btn btn-danger" role="button">Delete</a>
-                <a th:href="@{'/categories/edit/' + ${category.id}}" class="btn btn-primary" role="button">Edit</a>
+                <a th:href="@{'/categories/' + ${category.id} + '/delete'}" class="btn btn-danger" role="button">Delete</a>
+                <a th:href="@{'/categories/' + ${category.id} + '/edit'}" class="btn btn-primary" role="button">Edit</a>
             </td>
         </tr>
         </tbody>

@@ -1,42 +1,49 @@
 package com.sergosoft.goodscatalog.controller;
 
+import java.util.List;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import jakarta.validation.Valid;
+
 import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductDto;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.service.ProductService;
-import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    public ProductController(ProductService productService, ProductMapper productMapper) {
-        this.productService = productService;
-        this.productMapper = productMapper;
-    }
-
-    @GetMapping("/{productId}")
-    public String getProductById(@PathVariable Long productId, Model model) {
-        Product product = productService.getProductById(productId);
-        model.addAttribute("product", productMapper.toDto(product));
-        return "product";
-    }
-
+    //
+    // GET methods to return HTML pages
+    //
     @GetMapping({"/all", "/"})
-    public String getAllProducts(Model model) {
+    public String showAllProducts(Model model) {
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products.stream().map(productMapper::toDto));
         return "products";
+    }
+
+    @GetMapping("/{productId}")
+    public String showProductById(@PathVariable Long productId, Model model) {
+        Product product = productService.getProductById(productId);
+        model.addAttribute("product", productMapper.toDto(product));
+        return "product";
     }
 
     @GetMapping("/create")
@@ -45,26 +52,23 @@ public class ProductController {
         return "admin/product_form";
     }
 
+    @GetMapping("/{productId}/edit")
+    public String showProductEditForm(@PathVariable Long productId, Model model) {
+        Product product = productService.getProductById(productId);
+        model.addAttribute("product", productMapper.toDto(product));
+        return "admin/product_update_form";
+    }
+
+    //
+    // Executive methods (POST, PUT, DELETE and/or their GET representations for MVC)
+    //
     @PostMapping("/create")
     public String createProduct(@Valid @ModelAttribute("product") ProductCreationRequest creationRequest) {
         Product product = productService.createProduct(creationRequest);
         return "redirect:/products/" + product.getId();
     }
 
-    @GetMapping("/delete/{productId}")
-    public String deleteProduct(@PathVariable Long productId) {
-        productService.deleteProduct(productId);
-        return "redirect:/products/all";
-    }
-
-    @GetMapping("/edit/{productId}")
-    public String showUpdateProductForm(@PathVariable Long productId, Model model) {
-        Product product = productService.getProductById(productId);
-        model.addAttribute("product", productMapper.toDto(product));
-        return "admin/product_update_form";
-    }
-
-    @PutMapping("/edit/{productId}")
+    @PutMapping("/{productId}")
     public String updateProduct(
             @PathVariable Long productId,
             @Valid @ModelAttribute("product") ProductDto productDto,
@@ -78,4 +82,9 @@ public class ProductController {
         return "redirect:/products/all";
     }
 
+    @GetMapping("/{productId}/delete")
+    public String deleteProduct(@PathVariable Long productId) {
+        productService.deleteProduct(productId);
+        return "redirect:/products/all";
+    }
 }
