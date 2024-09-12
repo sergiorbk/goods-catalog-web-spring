@@ -2,17 +2,14 @@ package com.sergosoft.goodscatalog.controller;
 
 import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.dto.category.CategoryDto;
-import com.sergosoft.goodscatalog.dto.product.ProductDto;
 import com.sergosoft.goodscatalog.mapper.CategoryMapper;
 import com.sergosoft.goodscatalog.model.Category;
-import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -27,7 +24,7 @@ public class CategoryController {
         this.categoryMapper = categoryMapper;
     }
 
-    @GetMapping("/all")
+    @GetMapping({"/", "/all"})
     public String getAllCategories(Model model) {
         List<Category> categories = categoryService.getAllCategories();
         model.addAttribute("categories", categories.stream().map(categoryMapper::toDto));
@@ -47,18 +44,6 @@ public class CategoryController {
         return "admin/category_form";
     }
 
-    @PostMapping("/create")
-    public String createCategory(@Valid @ModelAttribute("category") CategoryCreationRequest categoryCreationRequest) {
-        Category category = categoryService.addCategory(categoryCreationRequest);
-        return "redirect:/categories/" + category.getId();
-    }
-
-    @GetMapping("/delete/{categoryId}")
-    public String deleteCategory(@PathVariable Integer categoryId) {
-        categoryService.deleteCategory(categoryId);
-        return "redirect:/categories/all";
-    }
-
     @GetMapping("/edit/{categoryId}")
     public String editProduct(@PathVariable Integer categoryId, Model model) {
         Category category = categoryService.getCategoryById(categoryId);
@@ -66,7 +51,13 @@ public class CategoryController {
         return "admin/category_update_form";
     }
 
-    @PostMapping("/edit/{categoryId}")
+    @PostMapping("/create")
+    public String createCategory(@Valid @ModelAttribute("category") CategoryCreationRequest categoryCreationRequest) {
+        Category category = categoryService.addCategory(categoryCreationRequest);
+        return "redirect:/categories/" + category.getId();
+    }
+
+    @PutMapping("/edit/{categoryId}")
     public String updateCategory(
             @PathVariable Integer categoryId,
             @Valid @ModelAttribute("category") CategoryDto categoryDto,
@@ -75,8 +66,14 @@ public class CategoryController {
         if (result.hasErrors()) {
             return "admin/category_update_form";
         }
-
+        categoryDto.setId(categoryId);
         categoryService.updateCategory(categoryDto.getId(), categoryMapper.toEntity(categoryDto));
+        return "redirect:/categories/all";
+    }
+
+    @DeleteMapping("/delete/{categoryId}")
+    public String deleteCategory(@PathVariable Integer categoryId) {
+        categoryService.deleteCategory(categoryId);
         return "redirect:/categories/all";
     }
 }

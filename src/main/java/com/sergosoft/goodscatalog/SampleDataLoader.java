@@ -4,6 +4,7 @@ import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
 import com.sergosoft.goodscatalog.dto.user.UserRegisterRequest;
 import com.sergosoft.goodscatalog.model.Category;
+import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.model.user.UserEntity;
 import com.sergosoft.goodscatalog.model.user.UserRole;
 import com.sergosoft.goodscatalog.service.CategoryService;
@@ -34,9 +35,7 @@ public class SampleDataLoader implements ApplicationRunner {
                 new ArrayList<>()
         ));
 
-
-
-        productService.createProduct(new ProductCreationRequest(
+        Product product = productService.createProduct(new ProductCreationRequest(
                 "Fridge",
                 "The coldest fridge in the world",
                 10999D,

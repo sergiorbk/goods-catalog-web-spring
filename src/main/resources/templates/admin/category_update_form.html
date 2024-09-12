@@ -15,7 +15,7 @@
     <h1 class="mb-4">Update Your Product</h1>
 
     <form th:action="@{/categories/edit/{id}(id=${category.id})}" th:object="${category}" method="post">
-
+        <input type="hidden" name="_method" value="put" />
         <div class="form-group">
             <label for="name" class="form-label">Name:</label>
             <input type="text" id="name" th:field="*{name}" class="form-control" required />

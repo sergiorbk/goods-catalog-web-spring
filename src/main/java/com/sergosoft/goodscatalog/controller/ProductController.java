@@ -32,7 +32,7 @@ public class ProductController {
         return "product";
     }
 
-    @GetMapping("/all")
+    @GetMapping({"/all", "/"})
     public String getAllProducts(Model model) {
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products.stream().map(productMapper::toDto));
@@ -58,13 +58,13 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{productId}")
-    public String editProduct(@PathVariable Long productId, Model model) {
+    public String showUpdateProductForm(@PathVariable Long productId, Model model) {
         Product product = productService.getProductById(productId);
         model.addAttribute("product", productMapper.toDto(product));
         return "admin/product_update_form";
     }
 
-    @PostMapping("/edit/{productId}")
+    @PutMapping("/edit/{productId}")
     public String updateProduct(
             @PathVariable Long productId,
             @Valid @ModelAttribute("product") ProductDto productDto,
@@ -73,7 +73,7 @@ public class ProductController {
         if (result.hasErrors()) {
             return "admin/product_update_form";
         }
-
+        productDto.setId(productId);
         productService.updateProduct(productDto.getId(), productMapper.toEntity(productDto));
         return "redirect:/products/all";
     }
