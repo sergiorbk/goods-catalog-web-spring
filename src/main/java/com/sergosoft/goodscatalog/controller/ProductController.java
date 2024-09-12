@@ -1,8 +1,5 @@
 package com.sergosoft.goodscatalog.controller;
 
-import java.util.List;
-
-import com.sergosoft.goodscatalog.model.user.UserRole;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +19,7 @@ import com.sergosoft.goodscatalog.dto.product.ProductDto;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.service.ProductService;
+import com.sergosoft.goodscatalog.model.user.UserRole;
 
 @Controller
 @RequestMapping("/products")
@@ -34,10 +32,9 @@ public class ProductController {
     //
     // GET methods to return HTML pages
     //
-    @GetMapping({"/all", "/"})
+    @GetMapping({"", "/", "/all"})
     public String showAllProducts(Model model, Authentication auth) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
+        model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("isAdmin", auth != null && auth.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(UserRole.ADMIN.name())));
         return "products";

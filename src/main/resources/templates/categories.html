@@ -1,11 +1,28 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Categories</title>
+    <style>
+        .table-container {
+            padding: 20px;
+        }
+        .table td a {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+        .table tr:hover {
+            background-color: #f8f9fa; /* Light background on row hover */
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
+<div class="container mt-5 table-container">
+    <h1>Categories</h1>
     <table class="table table-striped table-hover table-bordered">
         <thead class="thead-dark">
         <tr>
@@ -19,38 +36,45 @@
         </thead>
         <tbody>
         <tr th:each="category : ${categories}">
-            <td th:text="${category.name}"></td>
-            <td th:text="${category.description}"></td>
+            <td><a th:href="@{'/categories/' + ${category.id}}" th:text="${category.name}"></a></td>
+            <td><a th:href="@{'/categories/' + ${category.id}}" th:text="${category.description}"></a></td>
 
             <td>
-                <div th:if="${category.subCategories != null && !#lists.isEmpty(category.subCategories)}">
-                    <span th:each="subCategory : ${category.subCategories}" th:text="${subCategory.name}" class="badge badge-primary mr-1"></span>
-                </div>
-                <span th:if="${category.subCategories == null || #lists.isEmpty(category.subCategories)}">No Subcategories</span>
+                <a th:href="@{'/categories/' + ${category.id}}">
+                    <div th:if="${category.subCategories != null && !#lists.isEmpty(category.subCategories)}">
+                        <span th:each="subCategory : ${category.subCategories}" th:text="${subCategory.name}" class="badge badge-primary mr-1"></span>
+                    </div>
+                    <span th:if="${category.subCategories == null || #lists.isEmpty(category.subCategories)}">No Subcategories</span>
+                </a>
             </td>
 
             <td>
-                <div th:if="${category.parentId != null}">
-                    <span th:text="${category.parentId}" class="badge badge-primary mr-1"></span>
-                </div>
-                <span th:if="${category.parentId == null}">No parent category</span>
+                <a th:href="@{'/categories/' + ${category.id}}">
+                    <div th:if="${category.getParent() != null}">
+                        <span th:text="${category.getParent().getName()}" class="badge badge-primary mr-1"></span>
+                    </div>
+                    <span th:if="${category.getParent() == null}">No parent category</span>
+                </a>
             </td>
 
             <td>
-                <div th:if="${category.products != null && !#lists.isEmpty(category.products)}">
-                    <span th:each="product : ${category.products}" th:text="${product.name}" class="badge badge-info mr-1">Product</span>
-                </div>
-                <span th:if="${category.products == null || #lists.isEmpty(category.products)}">No Products</span>
+                <a th:href="@{'/categories/' + ${category.id}}">
+                    <div th:if="${category.products != null && !#lists.isEmpty(category.products)}">
+                        <span th:each="product : ${category.products}" th:text="${product.name}" class="badge badge-info mr-1">Product</span>
+                    </div>
+                    <span th:if="${category.products == null || #lists.isEmpty(category.products)}">No Products</span>
+                </a>
             </td>
 
             <td>
-                <a th:href="@{'/categories/moderate/' + ${category.id} + '/delete'}" class="btn btn-danger" role="button">Delete</a>
-                <a th:href="@{'/categories/moderate/' + ${category.id} + '/edit'}" class="btn btn-primary" role="button">Edit</a>
+                <a th:href="@{'/categories/moderate/' + ${category.id} + '/delete'}" class="btn btn-danger btn-sm" role="button">Delete</a>
+                <a th:href="@{'/categories/moderate/' + ${category.id} + '/edit'}" class="btn btn-primary btn-sm" role="button">Edit</a>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
+
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

@@ -1,8 +1,5 @@
 package com.sergosoft.goodscatalog.controller;
 
-import java.util.List;
-
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,12 +11,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.core.Authentication;
 import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.dto.category.CategoryDto;
 import com.sergosoft.goodscatalog.mapper.CategoryMapper;
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.service.CategoryService;
+import com.sergosoft.goodscatalog.model.user.UserRole;
 
 @Controller
 @RequestMapping("/categories")
@@ -32,17 +32,18 @@ public class CategoryController {
     //
     // GET methods to return HTML pages
     //
-    @GetMapping({"/", "/all"})
-    public String showAllCategories(Model model) {
-        List<Category> categories = categoryService.getAllCategories();
-        model.addAttribute("categories", categories.stream().map(categoryMapper::toDto));
+    @GetMapping({"", "/", "/all"})
+    public String showAllCategories(Model model, Authentication auth) {
+        model.addAttribute("categories", categoryService.getAllCategories());
+        model.addAttribute("isAdmin", auth != null && auth.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(UserRole.ADMIN.name())));
         return "categories";
     }
 
     @GetMapping("/{categoryId}")
     public String showCategoryById(@PathVariable Integer categoryId, Model model) {
         Category category = categoryService.getCategoryById(categoryId);
-        model.addAttribute("category", categoryMapper.toDto(category));
+        model.addAttribute("category", category);
         return "category";
     }
 
