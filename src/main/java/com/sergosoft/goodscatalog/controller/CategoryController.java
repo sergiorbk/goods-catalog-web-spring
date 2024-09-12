@@ -46,13 +46,13 @@ public class CategoryController {
         return "category";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/moderate/create")
     public String createCategory(Model model) {
         model.addAttribute("category", new CategoryCreationRequest());
         return "admin/category_form";
     }
 
-    @GetMapping("/{categoryId}/edit")
+    @GetMapping("/moderate/{categoryId}/edit")
     public String showEditProductForm(@PathVariable Integer categoryId, Model model) {
         Category category = categoryService.getCategoryById(categoryId);
         model.addAttribute("category", categoryMapper.toDto(category));
@@ -62,13 +62,13 @@ public class CategoryController {
     //
     // Executive methods (POST, PUT, DELETE and/or their GET representations for MVC)
     //
-    @PostMapping("/create")
+    @PostMapping("/moderate/create")
     public String createCategory(@Valid @ModelAttribute("category") CategoryCreationRequest categoryCreationRequest) {
         Category category = categoryService.addCategory(categoryCreationRequest);
         return "redirect:/categories/" + category.getId();
     }
 
-    @PutMapping("/{categoryId}")
+    @PutMapping("/moderate/{categoryId}")
     public String updateCategory(
             @PathVariable Integer categoryId,
             @Valid @ModelAttribute("category") CategoryDto categoryDto,
@@ -82,7 +82,7 @@ public class CategoryController {
         return "redirect:/categories/all";
     }
 
-    @GetMapping("/{categoryId}/delete")
+    @GetMapping("/moderate/{categoryId}/delete")
     public String deleteCategory(@PathVariable Integer categoryId) {
         categoryService.deleteCategory(categoryId);
         return "redirect:/categories/all";

@@ -46,13 +46,13 @@ public class ProductController {
         return "product";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/moderate/create")
     public String showCreateProductForm(Model model) {
         model.addAttribute("product", new ProductCreationRequest());
         return "admin/product_form";
     }
 
-    @GetMapping("/{productId}/edit")
+    @GetMapping("/moderate/{productId}/edit")
     public String showProductEditForm(@PathVariable Long productId, Model model) {
         Product product = productService.getProductById(productId);
         model.addAttribute("product", productMapper.toDto(product));
@@ -62,13 +62,13 @@ public class ProductController {
     //
     // Executive methods (POST, PUT, DELETE and/or their GET representations for MVC)
     //
-    @PostMapping("/create")
+    @PostMapping("/moderate/create")
     public String createProduct(@Valid @ModelAttribute("product") ProductCreationRequest creationRequest) {
         Product product = productService.createProduct(creationRequest);
         return "redirect:/products/" + product.getId();
     }
 
-    @PutMapping("/{productId}")
+    @PutMapping("/moderate/{productId}")
     public String updateProduct(
             @PathVariable Long productId,
             @Valid @ModelAttribute("product") ProductDto productDto,
@@ -82,7 +82,7 @@ public class ProductController {
         return "redirect:/products/all";
     }
 
-    @GetMapping("/{productId}/delete")
+    @GetMapping("/moderate/{productId}/delete")
     public String deleteProduct(@PathVariable Long productId) {
         productService.deleteProduct(productId);
         return "redirect:/products/all";
