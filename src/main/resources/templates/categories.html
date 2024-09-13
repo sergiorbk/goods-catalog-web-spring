@@ -18,11 +18,24 @@
             background-color: #f8f9fa; /* Light background on row hover */
             cursor: pointer;
         }
+        .back-arrow{
+            width: 40px;
+        }
     </style>
 </head>
 <body>
+<a href="/">
+    <img class="back-arrow" src="/back_arrow.png" alt="backArrow">
+</a>
 <div class="container mt-5 table-container">
-    <h1>Categories</h1>
+    <div class="header-list-container row align-items-center mb-4">
+        <div class="col-md-8">
+            <h1>Categories</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a href="/categories/moderate/create" class="btn btn-primary ms-auto" role="button">Create</a>
+        </div>
+    </div>
     <table class="table table-striped table-hover table-bordered">
         <thead class="thead-dark">
         <tr>
