@@ -49,12 +49,12 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="product : ${products}">
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.id}">ID</a></td>
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.name}">Name</a></td>
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.description}">Description</a></td>
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.price}">Price</a></td>
-                <td><a th:href="@{'/products/' + ${product.id}}" th:text="${product.category.getName()}">Category Name</a></td>
+            <tr th:each="product : ${products}" th:onclick="|window.location.href='/products/' + ${product.id}|">
+                <td><a th:text="${product.id}">ID</a></td>
+                <td><a th:text="${product.name}">Name</a></td>
+                <td><a th:text="${product.description}">Description</a></td>
+                <td><a th:text="${product.price}">Price</a></td>
+                <td><a th:text="${product.category.getName()}">Category Name</a></td>
                 <td th:if="${isAdmin}">
                     <a th:href="@{'/products/moderate/' + ${product.id} + '/delete'}" class="btn btn-danger btn-sm" role="button">Delete</a>
                     <a th:href="@{'/products/moderate/' + ${product.id} + '/edit'}" class="btn btn-primary btn-sm" role="button">Edit</a>

@@ -48,35 +48,29 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="category : ${categories}">
-            <td><a th:href="@{'/categories/' + ${category.id}}" th:text="${category.name}"></a></td>
-            <td><a th:href="@{'/categories/' + ${category.id}}" th:text="${category.description}"></a></td>
+        <tr th:each="category : ${categories}" th:onclick="|window.location.href='/categories/' + ${category.id}|">
+            <td><a th:text="${category.name}"></a></td>
+            <td><a th:text="${category.description}"></a></td>
 
             <td>
-                <a th:href="@{'/categories/' + ${category.id}}">
-                    <div th:if="${category.subCategories != null && !#lists.isEmpty(category.subCategories)}">
-                        <span th:each="subCategory : ${category.subCategories}" th:text="${subCategory.name}" class="badge badge-primary mr-1"></span>
-                    </div>
-                    <span th:if="${category.subCategories == null || #lists.isEmpty(category.subCategories)}">No Subcategories</span>
-                </a>
+                <div th:if="${category.subCategories != null && !#lists.isEmpty(category.subCategories)}">
+                    <span th:each="subCategory : ${category.subCategories}" th:text="${subCategory.name}" class="badge badge-primary mr-1"></span>
+                </div>
+                <span th:if="${category.subCategories == null || #lists.isEmpty(category.subCategories)}">No Subcategories</span>
             </td>
 
             <td>
-                <a th:href="@{'/categories/' + ${category.id}}">
-                    <div th:if="${category.getParent() != null}">
-                        <span th:text="${category.getParent().getName()}" class="badge badge-primary mr-1"></span>
-                    </div>
-                    <span th:if="${category.getParent() == null}">No parent category</span>
-                </a>
+                <div th:if="${category.getParent() != null}">
+                    <span th:text="${category.getParent().getName()}" class="badge badge-primary mr-1"></span>
+                </div>
+                <span th:if="${category.getParent() == null}">No parent category</span>
             </td>
 
             <td>
-                <a th:href="@{'/categories/' + ${category.id}}">
-                    <div th:if="${category.products != null && !#lists.isEmpty(category.products)}">
-                        <span th:each="product : ${category.products}" th:text="${product.name}" class="badge badge-info mr-1">Product</span>
-                    </div>
-                    <span th:if="${category.products == null || #lists.isEmpty(category.products)}">No Products</span>
-                </a>
+                <div th:if="${category.products != null && !#lists.isEmpty(category.products)}">
+                    <span th:each="product : ${category.products}" th:text="${product.name}" class="badge badge-info mr-1">Product</span>
+                </div>
+                <span th:if="${category.products == null || #lists.isEmpty(category.products)}">No Products</span>
             </td>
 
             <td>
