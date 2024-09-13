@@ -2,6 +2,7 @@ package com.sergosoft.goodscatalog.service.impl;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import com.sergosoft.goodscatalog.dto.product.ProductRequest;
@@ -12,15 +13,11 @@ import com.sergosoft.goodscatalog.repository.ProductRepository;
 import com.sergosoft.goodscatalog.service.ProductService;
 
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
-
-    public ProductServiceImpl(ProductRepository productRepository, ProductMapper productMapper) {
-        this.productRepository = productRepository;
-        this.productMapper = productMapper;
-    }
 
     @Override
     public List<Product> getAllProducts() {
@@ -29,8 +26,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("No product with ID: " + id + " found."));
+        return findProductOrThrow(id);
     }
 
     @Override
@@ -40,9 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void updateProduct(Long id, ProductRequest productRequest) {
-        if(!productRepository.existsById(id)) {
-            throw new EntityNotFoundException("No product with ID: " + id + " found.");
-        }
+        ensureProductExists(id);
 
         Product product = productMapper.toEntity(productRequest);
         product.setId(id);
@@ -52,9 +46,17 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void deleteProduct(Long id) {
-        if(productRepository.existsById(id)) {
-            productRepository.deleteById(id);
-        } else {
+        ensureProductExists(id);
+        productRepository.deleteById(id);
+    }
+
+    private Product findProductOrThrow(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No product with ID: " + id + " found."));
+    }
+
+    private void ensureProductExists(Long id) {
+        if (!productRepository.existsById(id)) {
             throw new EntityNotFoundException("No product with ID: " + id + " found.");
         }
     }

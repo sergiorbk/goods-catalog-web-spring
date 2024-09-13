@@ -1,7 +1,5 @@
 package com.sergosoft.goodscatalog.service.impl;
 
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,22 +25,22 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity registerUser(UserRegisterRequest request) {
         UserEntity user = userMapper.toEntity(request);
+
         // check if username is unique
         if(userRepository.existsByUsername(user.getUsername())) {
             throw new EntityUniqueViolationException("User with username: " + user.getUsername() + " already exists.");
         }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     @Override
     public void changeRole(Long userId, UserRole role) {
-        Optional<UserEntity> optionalUser = userRepository.findById(userId);
-        if(optionalUser.isEmpty()) {
-            throw new EntityNotFoundException("User with ID: " + userId + " does not exist.");
-        }
-        UserEntity user = optionalUser.get();
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with ID: " + userId + " does not exist."));
+
+        // update role if the new role is different from the current
         if(!user.getRole().equals(role)) {
             user.setRole(role);
             userRepository.save(user);

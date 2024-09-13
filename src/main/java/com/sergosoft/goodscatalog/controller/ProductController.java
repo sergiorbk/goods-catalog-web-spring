@@ -40,7 +40,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public String showProductById(@PathVariable Long productId, Model model) {
+    public String showProductById(Model model, @PathVariable Long productId) {
         Product product = productService.getProductById(productId);
         model.addAttribute("product", productMapper.toDto(product));
         return "product";
@@ -77,7 +77,6 @@ public class ProductController {
         if (result.hasErrors()) {
             return "admin/product_update_form";
         }
-
         productService.updateProduct(productId, productRequest);
         return "redirect:/products/all";
     }
