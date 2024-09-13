@@ -27,11 +27,6 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder){
-        this.passwordEncoder = passwordEncoder;
-    }
-
     @Override
     public UserEntity registerUser(UserRegisterRequest request) {
         UserEntity user = userMapper.toEntity(request);
@@ -55,5 +50,10 @@ public class UserServiceImpl implements UserService {
             user.setRole(role);
             userRepository.save(user);
         }
+    }
+
+    @Autowired
+    public void setPasswordEncoder(PasswordEncoder passwordEncoder){
+        this.passwordEncoder = passwordEncoder;
     }
 }
