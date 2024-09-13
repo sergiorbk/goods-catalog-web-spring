@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
 
-import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
+import com.sergosoft.goodscatalog.dto.product.ProductRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductDto;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
@@ -52,7 +52,7 @@ public class ProductController {
 
     @GetMapping("/moderate/create")
     public String showCreateProductForm(Model model) {
-        model.addAttribute("product", new ProductCreationRequest());
+        model.addAttribute("product", new ProductRequest());
         return "admin/product_form";
     }
 
@@ -67,7 +67,7 @@ public class ProductController {
     // Executive methods (POST, PUT, DELETE and/or their GET representations for MVC)
     //
     @PostMapping("/moderate/create")
-    public String createProduct(@Valid @ModelAttribute("product") ProductCreationRequest creationRequest) {
+    public String createProduct(@Valid @ModelAttribute("product") ProductRequest creationRequest) {
         Product product = productService.createProduct(creationRequest);
         return "redirect:/products/" + product.getId();
     }
@@ -75,14 +75,14 @@ public class ProductController {
     @PutMapping("/moderate/{productId}")
     public String updateProduct(
             @PathVariable Long productId,
-            @Valid @ModelAttribute("product") ProductDto productDto,
+            @Valid @ModelAttribute("product") ProductRequest productRequest,
             BindingResult result
     ) {
         if (result.hasErrors()) {
             return "admin/product_update_form";
         }
-        productDto.setId(productId);
-        productService.updateProduct(productDto.getId(), productMapper.toEntity(productDto));
+
+        productService.updateProduct(productId, productRequest);
         return "redirect:/products/all";
     }
 

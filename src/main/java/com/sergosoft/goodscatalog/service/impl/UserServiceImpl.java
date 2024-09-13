@@ -2,6 +2,7 @@ package com.sergosoft.goodscatalog.service.impl;
 
 import java.util.Optional;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,12 @@ import com.sergosoft.goodscatalog.repository.UserRepository;
 import com.sergosoft.goodscatalog.service.UserService;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private PasswordEncoder passwordEncoder;
-
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-    }
 
     @Override
     public UserEntity registerUser(UserRegisterRequest request) {

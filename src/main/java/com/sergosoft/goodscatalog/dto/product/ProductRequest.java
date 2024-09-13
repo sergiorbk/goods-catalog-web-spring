@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProductCreationRequest {
+public class ProductRequest {
 
     @NotBlank(message = "Name is mandatory.")
     @Length(max = 255, message = "Max length for name is 255.")

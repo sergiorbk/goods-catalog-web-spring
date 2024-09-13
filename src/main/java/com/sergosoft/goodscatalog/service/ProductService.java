@@ -2,7 +2,7 @@ package com.sergosoft.goodscatalog.service;
 
 import java.util.List;
 
-import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
+import com.sergosoft.goodscatalog.dto.product.ProductRequest;
 import com.sergosoft.goodscatalog.model.Product;
 
 public interface ProductService {
@@ -11,9 +11,9 @@ public interface ProductService {
 
     Product getProductById(Long id);
 
-    Product createProduct(ProductCreationRequest productCreationRequest);
+    Product createProduct(ProductRequest productRequest);
 
-    void updateProduct(Long id, Product product);
+    void updateProduct(Long id, ProductRequest productRequest);
 
     void deleteProduct(Long id);
 }

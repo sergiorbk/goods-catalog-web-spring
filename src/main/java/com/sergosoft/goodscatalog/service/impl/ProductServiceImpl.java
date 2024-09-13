@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
+import com.sergosoft.goodscatalog.dto.product.ProductRequest;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
@@ -30,21 +30,32 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("No product with ID: " + id + " not found."));
+                () -> new EntityNotFoundException("No product with ID: " + id + " found."));
     }
 
     @Override
-    public Product createProduct(ProductCreationRequest request) {
+    public Product createProduct(ProductRequest request) {
         return productRepository.save(productMapper.toEntity(request));
     }
 
     @Override
-    public void updateProduct(Long id, Product product) {
+    public void updateProduct(Long id, ProductRequest productRequest) {
+        if(!productRepository.existsById(id)) {
+            throw new EntityNotFoundException("No product with ID: " + id + " found.");
+        }
+
+        Product product = productMapper.toEntity(productRequest);
+        product.setId(id);
+
         productRepository.save(product);
     }
 
     @Override
     public void deleteProduct(Long id) {
-        productRepository.deleteById(id);
+        if(productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+        } else {
+            throw new EntityNotFoundException("No product with ID: " + id + " found.");
+        }
     }
 }

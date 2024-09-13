@@ -12,7 +12,7 @@ import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
 
 @Component
-public class CategoryMapper implements Mapper<Category, CategoryDto> {
+public class CategoryMapper {
 
     private final CategoryRepository categoryRepository;
 

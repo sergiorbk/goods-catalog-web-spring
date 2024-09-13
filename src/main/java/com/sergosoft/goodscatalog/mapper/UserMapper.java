@@ -8,9 +8,8 @@ import com.sergosoft.goodscatalog.model.user.UserEntity;
 import com.sergosoft.goodscatalog.model.user.UserRole;
 
 @Component
-public class UserMapper implements Mapper<UserEntity, UserDto> {
+public class UserMapper {
 
-    @Override
     public UserEntity toEntity(UserDto userDto) {
         if (userDto == null) {
             return null;
@@ -18,7 +17,6 @@ public class UserMapper implements Mapper<UserEntity, UserDto> {
         return new UserEntity(userDto.getId(), userDto.getUsername(), userDto.getPassword(), userDto.getRole());
     }
 
-    @Override
     public UserDto toDto(UserEntity userEntity) {
         if (userEntity == null) {
             return null;

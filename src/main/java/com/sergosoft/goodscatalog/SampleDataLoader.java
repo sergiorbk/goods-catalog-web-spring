@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import lombok.RequiredArgsConstructor;
 
 import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
-import com.sergosoft.goodscatalog.dto.product.ProductCreationRequest;
+import com.sergosoft.goodscatalog.dto.product.ProductRequest;
 import com.sergosoft.goodscatalog.dto.user.UserRegisterRequest;
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.model.Product;
@@ -61,7 +61,7 @@ public class SampleDataLoader implements ApplicationRunner {
         //
         // Products (All laptops)
         //
-        Product exampleLaptop1 = productService.createProduct(new ProductCreationRequest(
+        Product exampleLaptop1 = productService.createProduct(new ProductRequest(
                 "HP Victus 16 r0014ua",
                 "Powerful laptop with 32GB DDR5 RAM, I5 13500H, RTX4050",
                 35999D,
@@ -69,7 +69,7 @@ public class SampleDataLoader implements ApplicationRunner {
                 laptopsCategory.getId()
         ));
 
-        Product exampleLaptop2 = productService.createProduct(new ProductCreationRequest(
+        Product exampleLaptop2 = productService.createProduct(new ProductRequest(
                 "HP ProBook 4540s",
                 "Old school laptop with 16GB DDR3 RAM, I7 3632QM and mobile graphics by AMD",
                 11999D,
