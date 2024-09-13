@@ -1,27 +1,36 @@
 <!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <title>Document</title>
+    <style>
+        .back-arrow{
+            width: 40px;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <h1>Category</h1>
+<a href="/categories/all">
+    <img class="back-arrow" src="/back_arrow.png" alt="backArrow">
+</a>
+    <div class="container mt-5">
+        <h1 class="mb-4">Category</h1>
 
         <!-- Category Name and Description -->
-        <div><b>Name:</b>
+        <div class="mb-3"><b>Name:</b>
             <span th:text="${category.name}"></span>
         </div>
 
         <br>
 
-        <div><b>Description:</b>
+        <div class="mb-3"><b>Description:</b>
             <span th:text="${category.description}"></span>
         </div>
 
         <br>
 
         <!-- Parent Category Check -->
-        <div><b>Parent category:</b>
+        <div class="mb-3"><b>Parent category:</b>
             <span th:if="${category.parent != null}" th:text="${category.parent.name}"></span>
             <span th:unless="${category.parent != null}">No parent category</span>
         </div>
@@ -51,5 +60,8 @@
 <!--            </ul>-->
 <!--        </div>-->
     </div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
