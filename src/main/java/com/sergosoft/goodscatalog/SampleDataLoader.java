@@ -30,6 +30,9 @@ public class SampleDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
+        //
+        // Categories
+        //
         Category electronicsCategory = categoryService.addCategory(new CategoryCreationRequest(
                 "Electronics",
                 "Sample description for category Electronics",
@@ -38,14 +41,45 @@ public class SampleDataLoader implements ApplicationRunner {
                 new ArrayList<>()
         ));
 
-        Product product = productService.createProduct(new ProductCreationRequest(
-                "Fridge",
-                "The coldest fridge in the world",
-                10999D,
-                List.of("https://content.rozetka.com.ua/goods/images/big/14840350.jpg"),
-                electronicsCategory.getId()
+        Category computersCategory = categoryService.addCategory(new CategoryCreationRequest(
+                "Computers",
+                "Sample description for category Computers",
+                electronicsCategory.getId(),
+                new ArrayList<>(),
+                new ArrayList<>()
         ));
 
+        Category laptopsCategory = categoryService.addCategory(new CategoryCreationRequest(
+                "Laptops",
+                "Sample description for category Laptops",
+                computersCategory.getId(),
+                new ArrayList<>(),
+                new ArrayList<>()
+        ));
+
+
+        //
+        // Products (All laptops)
+        //
+        Product exampleLaptop1 = productService.createProduct(new ProductCreationRequest(
+                "HP Victus 16 r0014ua",
+                "Powerful laptop with 32GB DDR5 RAM, I5 13500H, RTX4050",
+                35999D,
+                List.of("https://content.rozetka.com.ua/goods/images/big/14840350.jpg"),
+                laptopsCategory.getId()
+        ));
+
+        Product exampleLaptop2 = productService.createProduct(new ProductCreationRequest(
+                "HP ProBook 4540s",
+                "Old school laptop with 16GB DDR3 RAM, I7 3632QM and mobile graphics by AMD",
+                11999D,
+                List.of("https://content.rozetka.com.ua/goods/images/big/14840350.jpg"),
+                laptopsCategory.getId()
+        ));
+
+        //
+        // Users
+        //
         userService.registerUser(new UserRegisterRequest(
                 "user",
                 "123123123Aa$"
