@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import com.sergosoft.goodscatalog.dto.product.ProductRequest;
-import com.sergosoft.goodscatalog.dto.product.ProductDto;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.service.ProductService;
@@ -22,15 +22,11 @@ import com.sergosoft.goodscatalog.model.user.UserRole;
 
 @Controller
 @RequestMapping("/products")
+@RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
     private final ProductMapper productMapper;
-
-    public ProductController(ProductService productService, ProductMapper productMapper) {
-        this.productService = productService;
-        this.productMapper = productMapper;
-    }
 
     //
     // GET methods to return HTML pages

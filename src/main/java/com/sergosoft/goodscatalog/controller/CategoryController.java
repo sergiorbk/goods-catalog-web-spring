@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.Authentication;
 import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
@@ -23,10 +24,10 @@ import com.sergosoft.goodscatalog.model.user.UserRole;
 
 @Controller
 @RequestMapping("/categories")
+@RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @Autowired
     private CategoryMapper categoryMapper;
