@@ -23,33 +23,47 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        log.debug("Fetching all products");
+        List<Product> products = productRepository.findAll();
+        log.info("Retrieved {} products", products.size());
+        return products;
     }
 
     @Override
     public Product getProductById(Long id) {
-        return findProductOrThrow(id);
+        log.debug("Fetching product by ID: {}", id);
+        Product product = findProductOrThrow(id);
+        log.info("Retrieved product with ID: {}", id);
+        return product;
     }
 
     @Override
     public Product createProduct(ProductRequest request) {
-        return productRepository.save(productMapper.toEntity(request));
+        log.debug("Creating product with request: {}", request);
+        Product product = productMapper.toEntity(request);
+        Product savedProduct = productRepository.save(product);
+        log.info("Created product with ID: {}", savedProduct.getId());
+        return savedProduct;
     }
 
     @Override
     public void updateProduct(Long id, ProductRequest productRequest) {
+        log.debug("Updating product with ID: {}", id);
         ensureProductExists(id);
 
         Product product = productMapper.toEntity(productRequest);
         product.setId(id);
 
         productRepository.save(product);
+        log.info("Updated product with ID: {}", id);
     }
 
     @Override
     public void deleteProduct(Long id) {
+        log.debug("Deleting product with ID: {}", id);
         ensureProductExists(id);
         productRepository.deleteById(id);
+        log.info("Deleted product with ID: {}", id);
     }
 
     private Product findProductOrThrow(Long id) {
