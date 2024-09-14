@@ -31,8 +31,7 @@
 
         <!-- Parent Category Check -->
         <div class="mb-3"><b>Parent category:</b>
-            <span th:if="${category.parent != null}" th:text="${category.parent.name}"></span>
-            <span th:unless="${category.parent != null}">No parent category</span>
+            <span th:text="${category.parent != null} ? ${category.parent.name}: 'No parent category'"></span>
         </div>
 
 
