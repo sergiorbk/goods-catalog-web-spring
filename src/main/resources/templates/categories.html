@@ -52,11 +52,12 @@
             <td><a th:text="${category.name}"></a></td>
             <td><a th:text="${category.description}"></a></td>
 
-            <td>
-                <div th:if="${category.subCategories != null && !#lists.isEmpty(category.subCategories)}">
+            <td th:switch="${#lists.size(category.subCategories)}">
+                <span th:case="'0'">No Subcategories</span>
+                <span th:case="'1'" th:text="${category.subCategories[0].name}" class="badge badge-primary mr-1"></span>
+                <div th:case="*">
                     <span th:each="subCategory : ${category.subCategories}" th:text="${subCategory.name}" class="badge badge-primary mr-1"></span>
                 </div>
-                <span th:if="${category.subCategories == null || #lists.isEmpty(category.subCategories)}">No Subcategories</span>
             </td>
 
             <td>
