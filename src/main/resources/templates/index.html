@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Categories manager</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="/" class="active">Home</a></li>
+            <li><a href="/categories/all">Categories</a></li>
+            <li><a href="/products/all">Products</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <div th:choose="'test'" class="content">
+        <h1 class="logo">CATEGORIES MANAGER</h1>
+        <p th:when="'test'">Welcome to categories</p>
+        <p>We are your assistants in product managing</p>
+        <p th:otherwise>--------</p>
+    </div>
+    <div class="icon">
+        <img src="/img/robot.png" alt="Robot Icon">
+    </div>
+</main>
+</body>
+</html>

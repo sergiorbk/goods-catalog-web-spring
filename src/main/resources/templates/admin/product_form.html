@@ -1,0 +1,57 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Product</title>
+    <style>
+        .container{
+            width: 50%;
+        }
+        .back-arrow{
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+<a href="/products/all">
+    <img class="back-arrow" src="/img/back_arrow.png" alt="backArrow">
+</a>
+<div class="container mt-5">
+    <h1 class="mb-4">Create Your Product</h1>
+
+    <form th:action="@{/products/moderate/create}" th:object="${product}" method="post">
+
+        <div class="form-group">
+            <label for="name" class="form-label">Name:</label>
+            <input type="text" id="name" th:field="*{name}" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="description" class="form-label">Description:</label>
+            <input type="text" id="description" th:field="*{description}" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="price" class="form-label">Price:</label>
+            <input type="number" id="price" th:field="*{price}" step="0.01" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="imageUrls" class="form-label">Image URLs:</label>
+            <input type="text" id="imageUrls" th:field="*{imagesUrls}" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="categoryId" class="form-label">Category ID:</label>
+            <input type="text" id="categoryId" th:field="*{categoryId}" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Create Product</button>
+
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

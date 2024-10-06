@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Products List</title>
+    <style>
+        .table-container {
+            padding: 20px;
+        }
+        .table td a {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+        .table tr:hover {
+            background-color: #f8f9fa; /* Light background on row hover */
+            cursor: pointer;
+        }
+        .back-arrow{
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+<a href="/">
+    <img class="back-arrow" src="/img/back_arrow.png" alt="backArrow">
+</a>
+<div class="container table-container">
+    <div class="header-list-container row align-items-center mb-4">
+        <div class="col-md-8">
+            <h1>Products List</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a href="/products/moderate/create" class="btn btn-primary ms-auto" role="button">Create</a>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category</th>
+                <th th:if="${isAdmin}">Modifications</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}" th:onclick="|window.location.href='/products/' + ${product.id}|">
+                <td><a th:text="${product.id}">ID</a></td>
+                <td><a th:text="${product.name}">Name</a></td>
+                <td><a th:text="${product.description}">Description</a></td>
+                <td><a th:text="${product.price}">Price</a></td>
+                <td><a th:text="${product.category.getName()}">Category Name</a></td>
+                <td th:if="${isAdmin}">
+                    <a th:href="@{'/products/moderate/' + ${product.id} + '/delete'}" class="btn btn-danger btn-sm" role="button">Delete</a>
+                    <a th:href="@{'/products/moderate/' + ${product.id} + '/edit'}" class="btn btn-primary btn-sm" role="button">Edit</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
