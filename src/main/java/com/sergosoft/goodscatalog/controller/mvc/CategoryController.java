@@ -1,4 +1,4 @@
-package com.sergosoft.goodscatalog.controller;
+package com.sergosoft.goodscatalog.controller.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

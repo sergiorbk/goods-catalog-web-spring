@@ -1,4 +1,4 @@
-package com.sergosoft.goodscatalog.controller;
+package com.sergosoft.goodscatalog.controller.mvc;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package com.sergosoft.goodscatalog.controller;
+package com.sergosoft.goodscatalog.controller.mvc;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
