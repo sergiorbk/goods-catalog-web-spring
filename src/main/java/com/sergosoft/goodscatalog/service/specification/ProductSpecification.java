@@ -18,4 +18,13 @@ public class ProductSpecification {
             return builder.between(root.get("price"), minPrice, maxPrice);
         };
     }
+
+    public static Specification<Product> refersTo(Integer categoryId) {
+        return (root, query, criteriaBuilder) -> {
+            if (categoryId == null) {
+                return criteriaBuilder.conjunction();
+            }
+            return criteriaBuilder.equal(root.get("category").get("id"), categoryId);
+        };
+    }
 }

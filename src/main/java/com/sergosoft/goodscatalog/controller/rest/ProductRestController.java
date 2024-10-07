@@ -30,7 +30,7 @@ public class ProductRestController {
     public ResponseEntity<PagedModel<EntityModel<ProductDto>>> getProductFilteredProductsByPage(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int pageSize,
-            ProductFilter productFilter,
+            @Valid ProductFilter productFilter,
             PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
 
         log.info("Received request to show all products");

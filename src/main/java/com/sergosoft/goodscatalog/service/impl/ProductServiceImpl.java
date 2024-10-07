@@ -30,11 +30,14 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Page<ProductDto> getFilteredProductsByPage(int page, int pageSize, ProductFilter filter) {
         log.debug("Fetching filtered products on page {} (page size {})", page, pageSize);
+
         Specification<Product> specification = Specification
-                .where(ProductSpecification.hasPriceBetween(filter.getMinPrice(), filter.getMaxPrice()));
+                .where(ProductSpecification.hasPriceBetween(filter.getMinPrice(), filter.getMaxPrice()))
+                .and(ProductSpecification.refersTo(filter.getCategoryId()));
 
         Page<Product> productsPage = productRepository.findAll(specification, PageRequest.of(page, pageSize));
         Page<ProductDto> productDtoPage = productsPage.map(productMapper::toDto);
+
         log.info("Retrieved {} products", productDtoPage.getSize());
         return productDtoPage;
     }

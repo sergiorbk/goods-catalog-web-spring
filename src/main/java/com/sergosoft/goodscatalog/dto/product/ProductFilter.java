@@ -9,10 +9,12 @@ import lombok.*;
 @Getter
 @Setter
 public class ProductFilter {
-
     @Min(0)
     private Double minPrice = 0d;
 
     @Min(0)
     private Double maxPrice = Double.MAX_VALUE;
+
+    @Min(0)
+    private Integer categoryId;
 }
