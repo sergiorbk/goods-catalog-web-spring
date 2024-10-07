@@ -2,6 +2,7 @@ package com.sergosoft.goodscatalog.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Entity;
@@ -44,6 +45,7 @@ public class Product {
     @Column(name = "image_url")
     private List<String> imagesUrls;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;

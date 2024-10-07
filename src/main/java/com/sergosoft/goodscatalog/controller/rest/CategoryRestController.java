@@ -2,9 +2,13 @@ package com.sergosoft.goodscatalog.controller.rest;
 
 import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.dto.category.CategoryDto;
+import com.sergosoft.goodscatalog.dto.product.ProductDto;
+import com.sergosoft.goodscatalog.dto.product.ProductFilter;
 import com.sergosoft.goodscatalog.mapper.CategoryMapper;
 import com.sergosoft.goodscatalog.model.Category;
+import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.service.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -26,21 +30,22 @@ public class CategoryRestController {
     private final CategoryMapper categoryMapper;
 
     @GetMapping
-    public ResponseEntity<PagedModel<EntityModel<Category>>> getAllPaged(
+    public ResponseEntity<PagedModel<EntityModel<CategoryDto>>> getAllPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "2") int size,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
-            PagedResourcesAssembler<Category> pagedAssembler) {
+            PagedResourcesAssembler<CategoryDto> pagedAssembler) {
 
         log.info("Received request to show all categories");
         Page<Category> categories = categoryService.filteredCategories(name, description, page, size);
+        Page<CategoryDto> categoriesDtoPage = categories.map(categoryMapper::toDto);
         if(categories.isEmpty()){
             log.info("No categories found");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        PagedModel<EntityModel<Category>> pagedModel = pagedAssembler.toModel(categories);
+        PagedModel<EntityModel<CategoryDto>> pagedModel = pagedAssembler.toModel(categoriesDtoPage);
         log.info("Retrieved {} categories", pagedModel.getContent().size());
         return new ResponseEntity<>(pagedModel, HttpStatus.OK);
     }
@@ -52,7 +57,7 @@ public class CategoryRestController {
         return new ResponseEntity<>(category, HttpStatus.OK);
     }
 
-    @PostMapping("/moderate/create")
+    @PostMapping("/moderate")
     public ResponseEntity<Category> createCategory(@RequestBody CategoryCreationRequest categoryCreationRequest) {
         log.info("Received request to create category {}", categoryCreationRequest.getName());
         Category category = categoryService.addCategory(categoryCreationRequest);
@@ -63,7 +68,7 @@ public class CategoryRestController {
     @PutMapping("/moderate/{categoryId}")
     public ResponseEntity<Category> updateCategory(
             @PathVariable Integer categoryId,
-            @RequestBody CategoryDto categoryDto,
+            @RequestBody  CategoryCreationRequest categoryCreationRequest,
             BindingResult bindingResult){
 
         log.info("Received request to update category with id {}", categoryId);
@@ -72,7 +77,7 @@ public class CategoryRestController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        Category category = categoryMapper.toEntity(categoryDto);
+        Category category = categoryMapper.toEntity(categoryCreationRequest);
         category.setId(categoryId);
         categoryService.updateCategory(category.getId(), category);
         log.info("Category updated with ID: {}", categoryId);
