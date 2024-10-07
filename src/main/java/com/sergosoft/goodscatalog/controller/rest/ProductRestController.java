@@ -1,11 +1,5 @@
 package com.sergosoft.goodscatalog.controller.rest;
 
-import com.sergosoft.goodscatalog.dto.product.ProductDto;
-import com.sergosoft.goodscatalog.dto.product.ProductFilter;
-import com.sergosoft.goodscatalog.dto.product.ProductRequest;
-import com.sergosoft.goodscatalog.mapper.ProductMapper;
-import com.sergosoft.goodscatalog.model.Product;
-import com.sergosoft.goodscatalog.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +10,12 @@ import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.sergosoft.goodscatalog.dto.product.ProductDto;
+import com.sergosoft.goodscatalog.dto.product.ProductFilter;
+import com.sergosoft.goodscatalog.dto.product.ProductRequest;
+import com.sergosoft.goodscatalog.mapper.ProductMapper;
+import com.sergosoft.goodscatalog.model.Product;
+import com.sergosoft.goodscatalog.service.ProductService;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -26,21 +26,6 @@ public class ProductRestController {
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    @GetMapping
-    public ResponseEntity<PagedModel<EntityModel<ProductDto>>> getProductFilteredProductsByPage(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @Valid ProductFilter productFilter,
-            PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
-
-        log.info("Received request to show all products");
-        Page<ProductDto> productsDtoPage = productService.getFilteredProductsByPage(page, pageSize, productFilter);
-        PagedModel<EntityModel<ProductDto>> pagedModel = pagedResourcesAssembler.toModel(productsDtoPage);
-
-        log.info("Returning products (page {}, pageSize = {})", page, pageSize);
-        return ResponseEntity.ok(pagedModel);
-    }
-
     @GetMapping("/{productId}")
     public ResponseEntity<ProductDto> getProductById(@PathVariable Long productId) {
         log.info("Received request to get product with ID: {}", productId);
@@ -48,6 +33,22 @@ public class ProductRestController {
         ProductDto productDto = productMapper.toDto(product);
         log.info("Returning product with ID: {}", productId);
         return ResponseEntity.ok(productDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<PagedModel<EntityModel<ProductDto>>> getProductFilteredProductsByPage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @Valid ProductFilter productFilter,
+            PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
+
+        log.info("Received request to show filtered products page");
+        Page<Product> productsPage = productService.getFilteredProductsByPage(page, pageSize, productFilter);
+        Page<ProductDto> productsDtoPage = productsPage.map(productMapper::toDto);
+        PagedModel<EntityModel<ProductDto>> pagedModel = pagedResourcesAssembler.toModel(productsDtoPage);
+
+        log.info("Returning products (page {}, pageSize = {})", page, pageSize);
+        return ResponseEntity.ok(pagedModel);
     }
 
     @PostMapping("/moderate")
@@ -65,21 +66,16 @@ public class ProductRestController {
             @RequestBody @Valid ProductRequest productRequest
     ) {
         log.info("Received request to update product with ID: {}", productId);
-        ProductDto updatedProduct = productService.updateProduct(productId, productRequest);
+        Product updatedProduct = productService.updateProduct(productId, productRequest);
         log.info("Product updated with ID: {}", productId);
-        return ResponseEntity.ok(updatedProduct);
+        return ResponseEntity.ok(productMapper.toDto(updatedProduct));
     }
 
     @DeleteMapping("/moderate/{productId}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
         log.info("Received request to delete product with ID: {}", productId);
-        boolean isDeleted = productService.deleteProduct(productId);
-        if(isDeleted) {
-            log.info("Product deleted with ID: {}", productId);
-            return ResponseEntity.noContent().build();
-        } else {
-            log.info("Product(id={}) was not deleted: no such product found.", productId);
-            return ResponseEntity.notFound().build();
-        }
+        productService.deleteProduct(productId);
+        log.info("Product deleted with ID: {}", productId);
+        return ResponseEntity.noContent().build();
     }
 }

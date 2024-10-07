@@ -1,23 +1,19 @@
 package com.sergosoft.goodscatalog.service.impl;
 
-import java.util.List;
-
-import com.sergosoft.goodscatalog.dto.product.ProductDto;
-import com.sergosoft.goodscatalog.dto.product.ProductFilter;
-import com.sergosoft.goodscatalog.service.specification.ProductSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import com.sergosoft.goodscatalog.dto.product.ProductRequest;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.repository.ProductRepository;
 import com.sergosoft.goodscatalog.service.ProductService;
+import com.sergosoft.goodscatalog.dto.product.ProductFilter;
+import com.sergosoft.goodscatalog.service.specification.ProductSpecification;
 
 @Service
 @Slf4j
@@ -28,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
-    public Page<ProductDto> getFilteredProductsByPage(int page, int pageSize, ProductFilter filter) {
+    public Page<Product> getFilteredProductsByPage(int page, int pageSize, ProductFilter filter) {
         log.debug("Fetching filtered products on page {} (page size {})", page, pageSize);
 
         Specification<Product> specification = Specification
@@ -36,18 +32,8 @@ public class ProductServiceImpl implements ProductService {
                 .and(ProductSpecification.refersTo(filter.getCategoryId()));
 
         Page<Product> productsPage = productRepository.findAll(specification, PageRequest.of(page, pageSize));
-        Page<ProductDto> productDtoPage = productsPage.map(productMapper::toDto);
-
-        log.info("Retrieved {} products", productDtoPage.getSize());
-        return productDtoPage;
-    }
-
-    @Override
-    public List<Product> getAllProducts() {
-        log.debug("Fetching all products...");
-        List<Product> products = productRepository.findAll();
-        log.info("Retrieved {} products", products.size());
-        return products;
+        log.info("Retrieved {} products", productsPage.getSize());
+        return productsPage;
     }
 
     @Override
@@ -68,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDto updateProduct(Long id, ProductRequest productRequest) {
+    public Product updateProduct(Long id, ProductRequest productRequest) {
         log.debug("Updating product with ID: {}", id);
         ensureProductExists(id);
 
@@ -77,19 +63,15 @@ public class ProductServiceImpl implements ProductService {
 
         Product savedProduct = productRepository.save(product);
         log.info("Updated product with ID: {}", id);
-        return productMapper.toDto(savedProduct);
+        return savedProduct;
     }
 
     @Override
-    public boolean deleteProduct(Long id) {
+    public void deleteProduct(Long id) {
         log.debug("Deleting product with ID: {}", id);
-        if(!productRepository.existsById(id)) {
-            log.debug("Unable to delete nonexistent product(id={})", id);
-            return false;
-        }
+        ensureProductExists(id);
         productRepository.deleteById(id);
         log.info("Deleted product with ID: {}", id);
-        return true;
     }
 
     private Product findProductOrThrow(Long id) {
