@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1/products")
+@RequestMapping("/api/v1/categories")
 @RequiredArgsConstructor
 @Slf4j
-public class ProductController {
+public class CategoryRestController {
 }
