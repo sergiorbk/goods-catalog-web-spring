@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import lombok.RequiredArgsConstructor;
@@ -22,13 +21,12 @@ import com.sergosoft.goodscatalog.service.UserService;
 
 @Component
 @RequiredArgsConstructor
-public class SampleDataLoader implements ApplicationRunner {
+public class SampleDataLoader {
 
     private final ProductService productService;
     private final CategoryService categoryService;
     private final UserService userService;
 
-    @Override
     public void run(ApplicationArguments args) {
         //
         // Categories
