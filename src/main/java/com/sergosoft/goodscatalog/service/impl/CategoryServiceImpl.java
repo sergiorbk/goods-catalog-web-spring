@@ -1,10 +1,6 @@
 package com.sergosoft.goodscatalog.service.impl;
 
 import java.util.List;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +10,6 @@ import com.sergosoft.goodscatalog.mapper.CategoryMapper;
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.impl.CategoryRepositoryImpl;
 import com.sergosoft.goodscatalog.service.CategoryService;
-import com.sergosoft.goodscatalog.service.specification.CategorySpecifications;
 import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 
 @Service
@@ -28,30 +23,9 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getAllCategories() {
         log.debug("Fetching all categories");
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = (List<Category>) categoryRepository.findAll();
         log.info("Retrieved {} categories", categories.size());
         return categories;
-    }
-
-    //
-    // Page without filtering
-    //
-    @Override
-    public Page<Category> getPage(int page, int size) {
-        log.debug("Fetching all pageable categories");
-        Pageable pageable = PageRequest.of(page, size);
-        return categoryRepository.findAll(pageable);
-    }
-
-    //
-    // Page with filtering
-    //
-    @Override
-    public Page<Category> filteredCategories(String name, String description, int page, int size){
-        log.debug("Fetching all filtered categories");
-        Specification<Category> spec = Specification.where(CategorySpecifications.hasName(name))
-                .and(CategorySpecifications.hasDescription(description));
-        return categoryRepository.findAll(spec, PageRequest.of(page, size));
     }
 
     @Override

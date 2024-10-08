@@ -1,17 +1,13 @@
 package com.sergosoft.goodscatalog.controller.rest;
 
+import java.util.List;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.sergosoft.goodscatalog.dto.product.ProductDto;
-import com.sergosoft.goodscatalog.dto.product.ProductFilter;
 import com.sergosoft.goodscatalog.dto.product.ProductRequest;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
@@ -36,19 +32,12 @@ public class ProductRestController {
     }
 
     @GetMapping
-    public ResponseEntity<PagedModel<EntityModel<ProductDto>>> getProductFilteredProductsByPage(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int pageSize,
-            @Valid ProductFilter productFilter,
-            PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
-
-        log.info("Received request to show filtered products page");
-        Page<Product> productsPage = productService.getFilteredProductsByPage(page, pageSize, productFilter);
-        Page<ProductDto> productsDtoPage = productsPage.map(productMapper::toDto);
-        PagedModel<EntityModel<ProductDto>> pagedModel = pagedResourcesAssembler.toModel(productsDtoPage);
-
-        log.info("Returning products (page {}, pageSize = {})", page, pageSize);
-        return ResponseEntity.ok(pagedModel);
+    public ResponseEntity<List<ProductDto>> getAllProducts() {
+        log.info("Received request to show all products.");
+        List<Product> products = productService.getAllProducts();
+        List<ProductDto> productsDtoList = products.stream().map(productMapper::toDto).toList();
+        log.info("Returning all products.");
+        return ResponseEntity.ok(productsDtoList);
     }
 
     @PostMapping("/moderate")
