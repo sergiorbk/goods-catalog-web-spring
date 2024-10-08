@@ -19,6 +19,7 @@ import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 @ControllerAdvice(basePackages = "com.sergosoft.goodscatalog.controller.mvc")
 @Slf4j
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(EntityUniqueViolationException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public String handleEntityUniqueValidationException(EntityUniqueViolationException ex, Model model) {
@@ -39,7 +40,7 @@ public class GlobalExceptionHandler {
             log.debug("Validation error in field '{}': {}", fieldName, errorMessage);
         });
         model.addAttribute("validationErrors", errors);
-        return "auth/register";
+        return "error/validation_error";
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
