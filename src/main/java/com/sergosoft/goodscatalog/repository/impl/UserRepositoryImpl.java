@@ -37,10 +37,10 @@ public class UserRepositoryImpl implements UserRepository {
         return null;
     }
 
+    // unused
     @Override
     public <S extends UserEntity> Iterable<S> saveAll(Iterable<S> entities) {
-        // ToDo
-        return null;
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
     @Override
@@ -61,16 +61,16 @@ public class UserRepositoryImpl implements UserRepository {
         return null;
     }
 
+    // unused
     @Override
     public Iterable<UserEntity> findAllById(Iterable<Long> longs) {
-        // ToDo
-        return null;
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
+    // unused
     @Override
     public long count() {
-        // ToDo
-        return 0;
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
     @Override
@@ -83,18 +83,21 @@ public class UserRepositoryImpl implements UserRepository {
         // ToDo
     }
 
+    // unused
     @Override
     public void deleteAllById(Iterable<? extends Long> longs) {
-        // ToDo
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
+    // unused
     @Override
     public void deleteAll(Iterable<? extends UserEntity> entities) {
-        // ToDo
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
+    // unused
     @Override
     public void deleteAll() {
-        // ToDo
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 }

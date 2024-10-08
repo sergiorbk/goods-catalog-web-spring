@@ -5,8 +5,11 @@ import com.sergosoft.goodscatalog.model.Product;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -30,15 +33,37 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     // CrudRepository methods
     //
     @Override
-    public <S extends Category> S save(S entity) {
-        // ToDo
-        return null;
+    public <S extends Category> S save(S category) {
+        if (category.getId() == null) {
+            String sql = "INSERT INTO categories (name, description, parent_id) VALUES (?, ?, ?)";
+
+            KeyHolder keyHolder = new GeneratedKeyHolder();
+
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+                ps.setString(1, category.getName());
+                ps.setString(2, category.getDescription());
+                if (category.getParent() != null) {
+                    ps.setInt(3, category.getParent().getId());
+                } else {
+                    ps.setNull(3, java.sql.Types.INTEGER);
+                }
+                return ps;
+            }, keyHolder);
+
+            category.setId(keyHolder.getKey().intValue());
+        } else {
+            String updateSql = "UPDATE categories SET name = ? WHERE id = ?";
+            jdbcTemplate.update(updateSql, category.getName(), category.getId());
+        }
+
+        return category;
     }
 
+    // unused
     @Override
     public <S extends Category> Iterable<S> saveAll(Iterable<S> entities) {
-        // ToDo
-        return null;
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
     @Override
@@ -48,32 +73,28 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             Category category = jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> {
                 Category parentCategory = null;
 
-                // check if parent category exists
                 Integer parentId = rs.getObject("parent_id", Integer.class);
                 if (parentId != null) {
-                    parentCategory = findById(parentId).orElse(null); // Рекурсивно отримуємо батьківську категорію
+                    parentCategory = findById(parentId).orElse(null);
                 }
                 return new Category(
                         rs.getInt("id"),
                         rs.getString("name"),
                         rs.getString("description"),
-                        parentCategory,  // Категорія-батько
-                        new ArrayList<>(),  // Список підкатегорій (заповнимо пізніше)
-                        new ArrayList<>()   // Список продуктів (заповнимо пізніше)
+                        parentCategory,
+                        new ArrayList<>(),
+                        new ArrayList<>()
                 );
             });
 
-            // getting subcategories
             assert category != null;
             category.setSubCategories(findSubCategoriesByParentId(category.getId()));
 
-            // getting products for category
             category.setProducts(findProductsByCategoryId(category.getId()));
 
             return Optional.of(category);
 
         } catch (EmptyResultDataAccessException e) {
-            // if category was not found
             return Optional.empty();
         }
     }
@@ -97,7 +118,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
                 rs.getString("name"),
                 rs.getString("description"),
                 rs.getDouble("price"),
-                new ArrayList<>(),  // Список зображень продукту
+                new ArrayList<>(),
                 null
         ));
     }
@@ -115,21 +136,26 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         return allCategories;
     }
 
+    // unused
     @Override
     public Iterable<Category> findAllById(Iterable<Integer> integers) {
-        // ToDo
-        return null;
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
+    // unused
     @Override
     public long count() {
-        // ToDo
-        return 0;
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
     @Override
-    public void deleteById(Integer integer) {
-        // ToDo
+    public void deleteById(Integer id) {
+        String sql = "DELETE FROM categories WHERE id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, id);
+
+        if (rowsAffected == 0) {
+            throw new IllegalArgumentException("Category with id " + id + " does not exist.");
+        }
     }
 
     @Override
@@ -137,18 +163,21 @@ public class CategoryRepositoryImpl implements CategoryRepository {
         // ToDo
     }
 
+    // unused
     @Override
     public void deleteAllById(Iterable<? extends Integer> integers) {
-        // ToDo
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
+    // unused
     @Override
     public void deleteAll(Iterable<? extends Category> entities) {
-        // ToDo
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 
+    // unused
     @Override
     public void deleteAll() {
-        // ToDo
+        throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
     }
 }
