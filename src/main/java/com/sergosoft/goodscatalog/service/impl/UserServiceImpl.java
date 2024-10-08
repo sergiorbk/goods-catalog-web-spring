@@ -13,7 +13,7 @@ import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 import com.sergosoft.goodscatalog.mapper.UserMapper;
 import com.sergosoft.goodscatalog.model.user.UserEntity;
 import com.sergosoft.goodscatalog.model.user.UserRole;
-import com.sergosoft.goodscatalog.repository.UserRepository;
+import com.sergosoft.goodscatalog.repository.impl.UserRepositoryImpl;
 import com.sergosoft.goodscatalog.service.UserService;
 
 @Service
@@ -21,7 +21,7 @@ import com.sergosoft.goodscatalog.service.UserService;
 @Slf4j
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepositoryImpl userRepository;
     private final UserMapper userMapper;
     private PasswordEncoder passwordEncoder;
 

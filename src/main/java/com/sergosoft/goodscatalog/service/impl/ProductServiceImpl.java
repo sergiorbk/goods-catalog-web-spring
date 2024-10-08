@@ -10,7 +10,7 @@ import com.sergosoft.goodscatalog.dto.product.ProductRequest;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.mapper.ProductMapper;
 import com.sergosoft.goodscatalog.model.Product;
-import com.sergosoft.goodscatalog.repository.ProductRepository;
+import com.sergosoft.goodscatalog.repository.impl.ProductRepositoryImpl;
 import com.sergosoft.goodscatalog.service.ProductService;
 import com.sergosoft.goodscatalog.dto.product.ProductFilter;
 import com.sergosoft.goodscatalog.service.specification.ProductSpecification;
@@ -20,7 +20,7 @@ import com.sergosoft.goodscatalog.service.specification.ProductSpecification;
 @RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-    private final ProductRepository productRepository;
+    private final ProductRepositoryImpl productRepository;
     private final ProductMapper productMapper;
 
     @Override

@@ -6,15 +6,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.sergosoft.goodscatalog.repository.UserRepository;
+import com.sergosoft.goodscatalog.repository.impl.UserRepositoryImpl;
 
 @Service
 @Slf4j
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UserRepositoryImpl userRepository;
 
-    public UserDetailsServiceImpl(UserRepository userRepository) { this.userRepository = userRepository; }
+    public UserDetailsServiceImpl(UserRepositoryImpl userRepository) { this.userRepository = userRepository; }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

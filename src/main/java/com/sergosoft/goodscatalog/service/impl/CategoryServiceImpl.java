@@ -12,7 +12,7 @@ import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.mapper.CategoryMapper;
 import com.sergosoft.goodscatalog.model.Category;
-import com.sergosoft.goodscatalog.repository.CategoryRepository;
+import com.sergosoft.goodscatalog.repository.impl.CategoryRepositoryImpl;
 import com.sergosoft.goodscatalog.service.CategoryService;
 import com.sergosoft.goodscatalog.service.specification.CategorySpecifications;
 import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
@@ -22,7 +22,7 @@ import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryRepositoryImpl categoryRepository;
     private final CategoryMapper categoryMapper;
 
     @Override

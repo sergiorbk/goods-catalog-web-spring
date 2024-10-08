@@ -7,14 +7,14 @@ import com.sergosoft.goodscatalog.dto.product.ProductDto;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.model.Product;
-import com.sergosoft.goodscatalog.repository.CategoryRepository;
+import com.sergosoft.goodscatalog.repository.impl.CategoryRepositoryImpl;
 
 @Component
 public class ProductMapper {
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryRepositoryImpl categoryRepository;
 
-    public ProductMapper(CategoryRepository categoryRepository) {
+    public ProductMapper(CategoryRepositoryImpl categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
