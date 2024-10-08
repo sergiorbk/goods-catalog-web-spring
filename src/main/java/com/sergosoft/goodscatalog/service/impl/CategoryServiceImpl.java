@@ -1,8 +1,6 @@
 package com.sergosoft.goodscatalog.service.impl;
 
 import java.util.List;
-
-import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +15,7 @@ import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
 import com.sergosoft.goodscatalog.service.CategoryService;
 import com.sergosoft.goodscatalog.service.specification.CategorySpecifications;
+import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 
 @Service
 @Slf4j
