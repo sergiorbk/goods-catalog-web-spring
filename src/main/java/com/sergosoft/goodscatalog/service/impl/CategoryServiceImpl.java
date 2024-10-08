@@ -1,6 +1,8 @@
 package com.sergosoft.goodscatalog.service.impl;
 
 import java.util.List;
+
+import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -69,7 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
         if (categoryRepository.existsByName(categoryName) || categoryRepository.existsByName(categoryName.toLowerCase())) {
             String errorMessage = "Field 'name' for a new Category must be unique.";
             log.error(errorMessage);
-            throw new EntityNotFoundException(errorMessage);
+            throw new EntityUniqueViolationException(errorMessage);
         }
 
         Category category = categoryRepository.save(categoryMapper.toEntity(categoryCreationRequest));
