@@ -19,8 +19,8 @@
 <div class="container mt-5">
     <h1 class="mb-4">Update Your Category</h1>
 
-    <form th:action="@{/categories/moderate/{id}(id=${category.id})/edit}" th:object="${category}" method="post">
-        <input type="hidden" name="_method" value="put" />
+    <form th:action="@{'/categories/moderate/' + ${category.id} + '/edit'}" th:object="${category}" method="post">
+    <input type="hidden" name="_method" value="put" />
         <div class="form-group">
             <label for="name" class="form-label">Name:</label>
             <input type="text" id="name" th:field="*{name}" class="form-control" required />
