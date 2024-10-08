@@ -15,6 +15,7 @@ import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.CategoryRepository;
 import com.sergosoft.goodscatalog.service.CategoryService;
 import com.sergosoft.goodscatalog.service.specification.CategorySpecifications;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -61,6 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
         return category;
     }
 
+    @Transactional
     @Override
     public Category addCategory(CategoryCreationRequest categoryCreationRequest) {
         String categoryName = categoryCreationRequest.getName();
