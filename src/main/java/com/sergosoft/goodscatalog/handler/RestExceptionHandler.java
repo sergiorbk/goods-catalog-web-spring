@@ -2,35 +2,29 @@ package com.sergosoft.goodscatalog.handler;
 
 import java.util.HashMap;
 import java.util.Map;
-
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import lombok.extern.slf4j.Slf4j;
-
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
 import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
 
-@ControllerAdvice(basePackages = "com.sergosoft.goodscatalog.controller.mvc")
+@RestControllerAdvice(basePackages = "com.sergosoft.goodscatalog.controller.rest")
 @Slf4j
-public class GlobalExceptionHandler {
+public class RestExceptionHandler {
 
     @ExceptionHandler(EntityUniqueViolationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public String handleEntityUniqueValidationException(EntityUniqueViolationException ex, Model model) {
+    public ResponseEntity<String> handleEntityUniqueValidationException(EntityUniqueViolationException ex, Model model) {
         log.error("Entity unique violation: {}", ex.getMessage());
-        model.addAttribute("error", ex.getMessage());
-        return "auth/register";
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleValidationExceptions(MethodArgumentNotValidException ex, Model model) {
+    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex, Model model) {
         log.error("Validation error: {}", ex.getMessage());
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
@@ -39,15 +33,12 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
             log.debug("Validation error in field '{}': {}", fieldName, errorMessage);
         });
-        model.addAttribute("validationErrors", errors);
-        return "error/validation_error";
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String handleEntityNotFoundException(EntityNotFoundException ex, Model model) {
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException ex, Model model) {
         log.error("Entity not found: {}", ex.getMessage());
-        model.addAttribute("errorMessage", ex.getMessage());
-        return "error/404";
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

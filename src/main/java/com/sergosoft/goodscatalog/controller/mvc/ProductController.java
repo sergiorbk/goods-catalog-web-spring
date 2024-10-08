@@ -1,15 +1,14 @@
-package com.sergosoft.goodscatalog.controller;
+package com.sergosoft.goodscatalog.controller.mvc;
 
+import com.sergosoft.goodscatalog.dto.product.ProductDto;
+import com.sergosoft.goodscatalog.dto.product.ProductFilter;
+import org.springframework.data.domain.Page;
+import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,18 +29,23 @@ public class ProductController {
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    @GetMapping({"", "/", "/all"})
-    public String showAllProducts(Model model, Authentication auth) {
-        log.info("Received request to show all products");
+    @GetMapping
+    public String getProductFilteredProductsByPage(
+            Model model,
+            Authentication auth,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @Valid ProductFilter productFilter,
+            PagedResourcesAssembler<ProductDto> pagedResourcesAssembler) {
 
-        model.addAttribute("products", productService.getAllProducts());
+        log.info("Received request to show filtered products page");
+        Page<Product> productsPage = productService.getFilteredProductsByPage(page, pageSize, productFilter);
+        model.addAttribute("products", productsPage.toList());
 
         boolean isAdmin = auth != null && auth.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals(UserRole.ADMIN.name()));
         model.addAttribute("isAdmin", isAdmin);
-
-        log.info("Returning all products view. Is admin: {}", isAdmin);
-
+        log.info("Returning products (page {}, pageSize = {}) for a simple user:{}",page, pageSize, isAdmin);
         return "products";
     }
 
@@ -108,7 +112,7 @@ public class ProductController {
 
         log.info("Product updated with ID: {}", productId);
 
-        return "redirect:/products/all";
+        return "redirect:/products";
     }
 
     @GetMapping("/moderate/{productId}/delete")
@@ -119,6 +123,6 @@ public class ProductController {
 
         log.info("Product deleted with ID: {}", productId);
 
-        return "redirect:/products/all";
+        return "redirect:/products";
     }
 }

@@ -1,4 +1,4 @@
-package com.sergosoft.goodscatalog.controller;
+package com.sergosoft.goodscatalog.controller.mvc;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,6 +71,17 @@ public class CategoryController {
         return "admin/category_form";
     }
 
+    @PostMapping("/moderate/create")
+    public String createCategory(@Valid @ModelAttribute("category") CategoryCreationRequest categoryCreationRequest) {
+        log.info("Received request to create category with name: {}", categoryCreationRequest.getName());
+
+        Category category = categoryService.addCategory(categoryCreationRequest);
+
+        log.info("Category created with ID: {}", category.getId());
+
+        return "redirect:/categories/" + category.getId();
+    }
+
     @GetMapping("/moderate/{categoryId}/edit")
     public String showEditCategoryForm(@PathVariable Integer categoryId, Model model) {
         log.info("Received request to show edit form for category with ID: {}", categoryId);
@@ -83,25 +94,13 @@ public class CategoryController {
         return "admin/category_update_form";
     }
 
-    @PostMapping("/moderate/create")
-    public String createCategory(@Valid @ModelAttribute("category") CategoryCreationRequest categoryCreationRequest) {
-        log.info("Received request to create category with name: {}", categoryCreationRequest.getName());
-
-        Category category = categoryService.addCategory(categoryCreationRequest);
-
-        log.info("Category created with ID: {}", category.getId());
-
-        return "redirect:/categories/" + category.getId();
-    }
-
-    @PutMapping("/moderate/{categoryId}")
+    @PutMapping("/moderate/{categoryId}/edit")
     public String updateCategory(
             @PathVariable Integer categoryId,
             @Valid @ModelAttribute("category") CategoryDto categoryDto,
             BindingResult result
     ) {
         log.info("Received request to update category with ID: {}", categoryId);
-
         if (result.hasErrors()) {
             log.warn("Validation errors occurred during category update: {}", result.getAllErrors());
             return "admin/category_update_form";
@@ -111,7 +110,6 @@ public class CategoryController {
         categoryService.updateCategory(categoryDto.getId(), categoryMapper.toEntity(categoryDto));
 
         log.info("Category updated with ID: {}", categoryId);
-
         return "redirect:/categories/all";
     }
 
