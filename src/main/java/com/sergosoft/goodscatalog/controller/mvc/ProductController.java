@@ -112,7 +112,7 @@ public class ProductController {
 
         log.info("Product updated with ID: {}", productId);
 
-        return "redirect:/products/all";
+        return "redirect:/products";
     }
 
     @GetMapping("/moderate/{productId}/delete")
@@ -123,6 +123,6 @@ public class ProductController {
 
         log.info("Product deleted with ID: {}", productId);
 
-        return "redirect:/products/all";
+        return "redirect:/products";
     }
 }
