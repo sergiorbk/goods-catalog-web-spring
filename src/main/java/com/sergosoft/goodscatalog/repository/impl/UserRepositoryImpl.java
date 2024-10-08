@@ -27,4 +27,74 @@ public class UserRepositoryImpl implements UserRepository {
         // ToDo
         return Optional.empty();
     }
+
+    //
+    // CrudRepository methods
+    //
+    @Override
+    public <S extends UserEntity> S save(S entity) {
+        // ToDo
+        return null;
+    }
+
+    @Override
+    public <S extends UserEntity> Iterable<S> saveAll(Iterable<S> entities) {
+        // ToDo
+        return null;
+    }
+
+    @Override
+    public Optional<UserEntity> findById(Long aLong) {
+        // ToDo
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean existsById(Long aLong) {
+        // ToDo
+        return false;
+    }
+
+    @Override
+    public Iterable<UserEntity> findAll() {
+        // ToDo
+        return null;
+    }
+
+    @Override
+    public Iterable<UserEntity> findAllById(Iterable<Long> longs) {
+        // ToDo
+        return null;
+    }
+
+    @Override
+    public long count() {
+        // ToDo
+        return 0;
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+        // ToDo
+    }
+
+    @Override
+    public void delete(UserEntity entity) {
+        // ToDo
+    }
+
+    @Override
+    public void deleteAllById(Iterable<? extends Long> longs) {
+        // ToDo
+    }
+
+    @Override
+    public void deleteAll(Iterable<? extends UserEntity> entities) {
+        // ToDo
+    }
+
+    @Override
+    public void deleteAll() {
+        // ToDo
+    }
 }

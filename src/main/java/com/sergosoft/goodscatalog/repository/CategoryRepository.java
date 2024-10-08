@@ -1,5 +1,8 @@
 package com.sergosoft.goodscatalog.repository;
 
-public interface CategoryRepository {
+import com.sergosoft.goodscatalog.model.Category;
+import org.springframework.data.repository.CrudRepository;
+
+public interface CategoryRepository extends CrudRepository<Category, Integer> {
     boolean existsByName(String name);
 }
