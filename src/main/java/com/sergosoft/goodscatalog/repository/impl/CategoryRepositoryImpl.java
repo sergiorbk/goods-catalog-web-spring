@@ -25,8 +25,11 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 
     @Override
     public boolean existsByName(String name) {
-        // ToDo
-        return false;
+        String sql = "SELECT COUNT(*) FROM categories WHERE name = ?";
+
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{name}, Integer.class);
+
+        return count != null && count > 0;
     }
 
     //
@@ -124,9 +127,22 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     }
 
     @Override
-    public boolean existsById(Integer integer) {
-        // ToDo
-        return false;
+    public void deleteById(Integer id) {
+        String sql = "DELETE FROM categories WHERE id = ?";
+        int rowsAffected = jdbcTemplate.update(sql, id);
+
+        if (rowsAffected == 0) {
+            throw new IllegalArgumentException("Category with id " + id + " does not exist.");
+        }
+    }
+
+    @Override
+    public boolean existsById(Integer id) {
+        String sql = "SELECT COUNT(*) FROM categories WHERE id = ?";
+
+        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
+
+        return count != null && count > 0;
     }
 
     @Override
@@ -146,16 +162,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public long count() {
         throw new UnsupportedOperationException("Method 'save' is not implemented yet.");
-    }
-
-    @Override
-    public void deleteById(Integer id) {
-        String sql = "DELETE FROM categories WHERE id = ?";
-        int rowsAffected = jdbcTemplate.update(sql, id);
-
-        if (rowsAffected == 0) {
-            throw new IllegalArgumentException("Category with id " + id + " does not exist.");
-        }
     }
 
     @Override

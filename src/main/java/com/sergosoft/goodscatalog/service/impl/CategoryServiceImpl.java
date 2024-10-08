@@ -11,6 +11,7 @@ import com.sergosoft.goodscatalog.model.Category;
 import com.sergosoft.goodscatalog.repository.impl.CategoryRepositoryImpl;
 import com.sergosoft.goodscatalog.service.CategoryService;
 import com.sergosoft.goodscatalog.exception.EntityUniqueViolationException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -37,6 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public Category addCategory(CategoryCreationRequest categoryCreationRequest) {
         String categoryName = categoryCreationRequest.getName();
         log.debug("Adding new category with name: {}", categoryName);
