@@ -22,15 +22,6 @@ public class ProductRestController {
     private final ProductService productService;
     private final ProductMapper productMapper;
 
-    @GetMapping("/{productId}")
-    public ResponseEntity<ProductDto> getProductById(@PathVariable Long productId) {
-        log.info("Received request to get product with ID: {}", productId);
-        Product product = productService.getProductById(productId);
-        ProductDto productDto = productMapper.toDto(product);
-        log.info("Returning product with ID: {}", productId);
-        return ResponseEntity.ok(productDto);
-    }
-
     @GetMapping
     public ResponseEntity<List<ProductDto>> getAllProducts() {
         log.info("Received request to show all products.");
@@ -38,6 +29,15 @@ public class ProductRestController {
         List<ProductDto> productsDtoList = products.stream().map(productMapper::toDto).toList();
         log.info("Returning all products.");
         return ResponseEntity.ok(productsDtoList);
+    }
+
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long productId) {
+        log.info("Received request to get product with ID: {}", productId);
+        Product product = productService.getProductById(productId);
+        ProductDto productDto = productMapper.toDto(product);
+        log.info("Returning product with ID: {}", productId);
+        return ResponseEntity.ok(productDto);
     }
 
     @PostMapping("/moderate")

@@ -26,9 +26,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public boolean existsByName(String name) {
         String sql = "SELECT COUNT(*) FROM categories WHERE name = ?";
-
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{name}, Integer.class);
-
         return count != null && count > 0;
     }
 
@@ -39,9 +37,7 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public <S extends Category> S save(S category) {
         if (category.getId() == null) {
             String sql = "INSERT INTO categories (name, description, parent_id) VALUES (?, ?, ?)";
-
             KeyHolder keyHolder = new GeneratedKeyHolder();
-
             jdbcTemplate.update(connection -> {
                 PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
                 ps.setString(1, category.getName());
@@ -59,7 +55,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             String updateSql = "UPDATE categories SET name = ? WHERE id = ?";
             jdbcTemplate.update(updateSql, category.getName(), category.getId());
         }
-
         return category;
     }
 
@@ -94,7 +89,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             category.setSubCategories(findSubCategoriesByParentId(category.getId()));
 
             category.setProducts(findProductsByCategoryId(category.getId()));
-
             return Optional.of(category);
 
         } catch (EmptyResultDataAccessException e) {
@@ -130,7 +124,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     public void deleteById(Integer id) {
         String sql = "DELETE FROM categories WHERE id = ?";
         int rowsAffected = jdbcTemplate.update(sql, id);
-
         if (rowsAffected == 0) {
             throw new IllegalArgumentException("Category with id " + id + " does not exist.");
         }
@@ -139,16 +132,43 @@ public class CategoryRepositoryImpl implements CategoryRepository {
     @Override
     public boolean existsById(Integer id) {
         String sql = "SELECT COUNT(*) FROM categories WHERE id = ?";
-
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
-
         return count != null && count > 0;
     }
 
     @Override
     public Iterable<Category> findAll() {
-        List<Category> allCategories = new ArrayList<>();
-        // ToDo
+        String sql = "SELECT id, name, description, parent_id FROM categories";
+        List<Category> allCategories = jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Category category = new Category();
+            category.setId(rs.getInt("id"));
+            category.setName(rs.getString("name"));
+            category.setDescription(rs.getString("description"));
+
+            Integer parentId = rs.getObject("parent_id", Integer.class);
+            if (parentId != null) {
+                Category parentCategory = new Category();
+                parentCategory.setId(parentId);
+                category.setParent(parentCategory);
+            }
+
+            category.setSubCategories(new ArrayList<>());
+            category.setProducts(new ArrayList<>());
+
+            return category;
+        });
+
+        for (Category category : allCategories) {
+            if (category.getParent() != null) {
+                Optional<Category> parent = findById(category.getParent().getId());
+                parent.ifPresent(value -> value.getSubCategories().add(category));
+            }
+        }
+
+        for (Category category : allCategories) {
+            category.setProducts(findProductsByCategoryId(category.getId()));
+        }
+
         return allCategories;
     }
 

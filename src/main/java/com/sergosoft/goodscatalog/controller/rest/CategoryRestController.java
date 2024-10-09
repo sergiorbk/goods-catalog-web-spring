@@ -1,15 +1,20 @@
 package com.sergosoft.goodscatalog.controller.rest;
 
-import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
-import com.sergosoft.goodscatalog.mapper.CategoryMapper;
-import com.sergosoft.goodscatalog.model.Category;
-import com.sergosoft.goodscatalog.service.CategoryService;
+import java.util.List;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import com.sergosoft.goodscatalog.dto.category.CategoryCreationRequest;
+import com.sergosoft.goodscatalog.dto.category.CategoryDto;
+import com.sergosoft.goodscatalog.mapper.CategoryMapper;
+import com.sergosoft.goodscatalog.model.Category;
+import com.sergosoft.goodscatalog.service.CategoryService;
 
 @RestController("restCategoryController")
 @RequestMapping("/api/v1/categories")
@@ -20,23 +25,33 @@ public class CategoryRestController {
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
+    @GetMapping
+    public ResponseEntity<List<CategoryDto>> getAllCategories() {
+        log.info("Received request to get all categories.");
+        List<Category> categories = categoryService.getAllCategories();
+        List<CategoryDto> categoryDtoList = categories.stream().map(categoryMapper::toDto).toList();
+        return new ResponseEntity<>(categoryDtoList, HttpStatus.OK);
+    }
+
     @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Integer categoryId) {
-        log.info("Received request to show category with id {}", categoryId);
+    public ResponseEntity<CategoryDto> getCategoryById(@PathVariable Integer categoryId) {
+        log.info("Received request to get category with id {}", categoryId);
         Category category = categoryService.getCategoryById(categoryId);
-        return new ResponseEntity<>(category, HttpStatus.OK);
+        CategoryDto categoryDto = categoryMapper.toDto(category);
+        return new ResponseEntity<>(categoryDto, HttpStatus.OK);
     }
 
     @PostMapping("/moderate")
-    public ResponseEntity<Category> createCategory(@RequestBody CategoryCreationRequest categoryCreationRequest) {
+    public ResponseEntity<CategoryDto> createCategory(@RequestBody CategoryCreationRequest categoryCreationRequest) {
         log.info("Received request to create category {}", categoryCreationRequest.getName());
         Category category = categoryService.addCategory(categoryCreationRequest);
+        CategoryDto categoryDto = categoryMapper.toDto(category);
         log.info("Category created with ID: {}", category.getId());
-        return new ResponseEntity<>(category, HttpStatus.CREATED);
+        return new ResponseEntity<>(categoryDto, HttpStatus.CREATED);
     }
 
     @PutMapping("/moderate/{categoryId}")
-    public ResponseEntity<Category> updateCategory(
+    public ResponseEntity<CategoryDto> updateCategory(
             @PathVariable Integer categoryId,
             @RequestBody  CategoryCreationRequest categoryCreationRequest,
             BindingResult bindingResult){
@@ -49,17 +64,18 @@ public class CategoryRestController {
 
         Category category = categoryMapper.toEntity(categoryCreationRequest);
         category.setId(categoryId);
-        categoryService.updateCategory(category.getId(), category);
+        Category updatedCategory = categoryService.updateCategory(category.getId(), category);
         log.info("Category updated with ID: {}", categoryId);
-        return new ResponseEntity<>(category, HttpStatus.OK);
+
+        CategoryDto updatedCategoryDto = categoryMapper.toDto(updatedCategory);
+        return new ResponseEntity<>(updatedCategoryDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/moderate/{categoryId}")
-    public ResponseEntity<Category> deleteCategory(@PathVariable Integer categoryId) {
+    public ResponseEntity<Void> deleteCategory(@PathVariable Integer categoryId) {
         log.info("Received request to delete category with id {}", categoryId);
-        Category category = categoryService.getCategoryById(categoryId);
         categoryService.deleteCategory(categoryId);
         log.info("Category deleted with ID: {}", categoryId);
-        return new ResponseEntity<>(category, HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 }

@@ -1,5 +1,6 @@
 package com.sergosoft.goodscatalog.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> getAllCategories() {
         log.debug("Fetching all categories");
-        List<Category> categories = (List<Category>) categoryRepository.findAll();
+        List<Category> categories = (ArrayList<Category>) categoryRepository.findAll();
         log.info("Retrieved {} categories", categories.size());
         return categories;
     }
@@ -55,12 +56,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void updateCategory(Integer id, Category category) {
+    public Category updateCategory(Integer id, Category category) {
         log.debug("Updating category with ID: {}", id);
         ensureCategoryExists(id);
-
-        categoryRepository.save(category);
+        Category updatedCategory = categoryRepository.save(category);
         log.info("Updated category with ID: {}", id);
+        return updatedCategory;
     }
 
     @Override

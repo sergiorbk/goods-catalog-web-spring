@@ -8,6 +8,6 @@ public interface CategoryService {
     List<Category> getAllCategories();
     Category getCategoryById(Integer id);
     Category addCategory(CategoryCreationRequest categoryCreationRequest);
-    void updateCategory(Integer id, Category category);
+    Category updateCategory(Integer id, Category category);
     void deleteCategory(Integer id);
 }

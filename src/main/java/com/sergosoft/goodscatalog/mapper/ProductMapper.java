@@ -1,7 +1,6 @@
 package com.sergosoft.goodscatalog.mapper;
 
 import org.springframework.stereotype.Component;
-
 import com.sergosoft.goodscatalog.dto.product.ProductRequest;
 import com.sergosoft.goodscatalog.dto.product.ProductDto;
 import com.sergosoft.goodscatalog.exception.EntityNotFoundException;
