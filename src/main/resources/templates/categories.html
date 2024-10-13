@@ -1,0 +1,90 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Categories</title>
+    <style>
+        .table-container {
+            padding: 20px;
+        }
+        .table td a {
+            display: block;
+            color: inherit;
+            text-decoration: none;
+        }
+        .table tr:hover {
+            background-color: #f8f9fa; /* Light background on row hover */
+            cursor: pointer;
+        }
+        .back-arrow{
+            width: 40px;
+        }
+    </style>
+</head>
+<body>
+<a href="/">
+    <img class="back-arrow" src="/img/back_arrow.png" alt="backArrow">
+</a>
+<div class="container mt-5 table-container">
+    <div class="header-list-container row align-items-center mb-4">
+        <div class="col-md-8">
+            <h1>Categories</h1>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <a href="/categories/moderate/create" class="btn btn-primary ms-auto" role="button">Create</a>
+        </div>
+    </div>
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>SubCategories</th>
+            <th>Parent Category</th>
+            <th>Products</th>
+            <th>Modifications</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}" th:onclick="|window.location.href='/categories/' + ${category.id}|">
+            <td><a th:text="${category.name}"></a></td>
+            <td><a th:text="${category.description}"></a></td>
+
+            <td th:switch="${#lists.size(category.subCategories)}">
+                <span th:case="'0'">No Subcategories</span>
+                <span th:case="'1'" th:text="${category.subCategories[0].name}" class="badge badge-primary mr-1"></span>
+                <div th:case="*">
+                    <span th:each="subCategory : ${category.subCategories}" th:text="${subCategory.name}" class="badge badge-primary mr-1"></span>
+                </div>
+            </td>
+
+            <td>
+                <div th:if="${category.getParent() != null}">
+                    <span th:text="${category.getParent().getName()}" class="badge badge-primary mr-1"></span>
+                </div>
+                <span th:unless="${category.getParent() != null}">No parent category</span>
+            </td>
+
+            <td>
+                <div th:if="${category.products != null && !#lists.isEmpty(category.products)}">
+                    <span th:each="product : ${category.products}" th:text="${product.name}" class="badge badge-info mr-1">Product</span>
+                </div>
+                <span th:if="${category.products == null || #lists.isEmpty(category.products)}">No Products</span>
+            </td>
+
+            <td>
+                <a th:href="@{'/categories/moderate/' + ${category.id} + '/delete'}" class="btn btn-danger btn-sm" role="button">Delete</a>
+                <a th:href="@{'/categories/moderate/' + ${category.id} + '/edit'}" class="btn btn-primary btn-sm" role="button">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
