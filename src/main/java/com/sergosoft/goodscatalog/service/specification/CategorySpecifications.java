@@ -1,8 +1,10 @@
 package com.sergosoft.goodscatalog.service.specification;
 
 import com.sergosoft.goodscatalog.model.Category;
+import lombok.experimental.UtilityClass;
 import org.springframework.data.jpa.domain.Specification;
 
+@UtilityClass
 public class CategorySpecifications {
 
     public static Specification<Category> hasName(String name) {

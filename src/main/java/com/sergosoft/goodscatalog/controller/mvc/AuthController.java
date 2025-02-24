@@ -20,6 +20,7 @@ import com.sergosoft.goodscatalog.service.UserService;
 public class AuthController {
 
     private final UserService userService;
+    private final String AUTH_REGISTER_ROUTE = "auth/register";
 
     //
     // GET methods to return HTML pages
@@ -28,7 +29,7 @@ public class AuthController {
     public String getRegistrationForm(Model model) {
         log.info("Rendering registration form");
         model.addAttribute(new UserRegisterRequest());
-        return "auth/register";
+        return AUTH_REGISTER_ROUTE;
     }
 
     //
@@ -40,7 +41,7 @@ public class AuthController {
 
         if (result.hasErrors()) {
             log.warn("Validation errors occurred during registration: {}", result.getAllErrors());
-            return "auth/register";
+            return AUTH_REGISTER_ROUTE;
         }
 
         try {
@@ -49,11 +50,11 @@ public class AuthController {
         } catch (EntityUniqueViolationException e) {
             log.error("EntityUniqueViolationException occurred: {}", e.getMessage());
             model.addAttribute("error", e.getMessage());
-            return "auth/register";
+            return AUTH_REGISTER_ROUTE;
         } catch (Exception e) {
             log.error("Unexpected error occurred during registration: {}", e.getMessage(), e);
             model.addAttribute("error", "An unexpected error occurred. Please try again.");
-            return "auth/register";
+            return AUTH_REGISTER_ROUTE;
         }
 
         return "redirect:/login";

@@ -1,10 +1,12 @@
 package com.sergosoft.goodscatalog.service.specification;
 
 import com.sergosoft.goodscatalog.model.Product;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.Specification;
 
 @Slf4j
+@UtilityClass
 public class ProductSpecification {
 
     public static Specification<Product> hasPriceBetween(Double minPrice, Double maxPrice) {
