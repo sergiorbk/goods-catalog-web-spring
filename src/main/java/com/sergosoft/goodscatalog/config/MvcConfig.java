@@ -21,6 +21,7 @@ public class MvcConfig implements WebMvcConfigurer {
                 .allowedMethods("*");
     }
 
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("index");
         registry.addViewController("/login").setViewName("auth/login");

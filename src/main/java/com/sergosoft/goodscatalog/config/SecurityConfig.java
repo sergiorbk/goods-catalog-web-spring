@@ -23,8 +23,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf().disable()
-                .authorizeHttpRequests((requests) -> requests
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/api/v1/**").permitAll()
                         .requestMatchers("/", "/register").permitAll()
                         .requestMatchers("/css/**", "/img/**").permitAll()
@@ -32,7 +31,7 @@ public class SecurityConfig {
                         .requestMatchers("/*/moderate/**").hasAuthority(UserRole.ADMIN.name())
                         .anyRequest().authenticated()
                 )
-                .formLogin((form) -> form
+                .formLogin(form -> form
                         .loginPage("/login")
                         .permitAll()
                         .defaultSuccessUrl("/")

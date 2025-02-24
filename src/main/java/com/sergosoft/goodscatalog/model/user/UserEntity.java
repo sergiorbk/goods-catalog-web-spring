@@ -44,7 +44,7 @@ public class UserEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Stream.of(role).map((role) -> (GrantedAuthority) role::toString).toList();
+        return Stream.of(role).map(currentRole -> (GrantedAuthority) currentRole::toString).toList();
     }
 
     @Override
